@@ -2,4 +2,10 @@
 New and Improved Server Health Monitor
 
 Contributors:
-*Mathew Pius
+<ul>
+<li>Mathew Pius</li>
+<li>Arushi Agarwal</li>
+<li>Nazia Ali</li>
+<li>Nikhil Shaji</li>
+</ul>
+
