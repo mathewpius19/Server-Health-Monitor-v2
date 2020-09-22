@@ -11,9 +11,9 @@ router.post("/Registration", (req,res)=>{
    request.post({
        url:"http://127.0.0.1/Registration",
        json:{
-           Username:req.body.username,
-           Password:req.body.password,
-           Security:req.body.security
+           Username:req.body.Username,
+           Password:req.body.Password,
+           Security:req.body.Security
 
        },
        headers:{
