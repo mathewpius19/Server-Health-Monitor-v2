@@ -202,5 +202,4 @@ def security():
 
 if __name__ ==("__main__"):
     print("Emitter flask server is running...")
-    print("listening at port 80....")
     app.run(debug=True,port=80)
