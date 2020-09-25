@@ -41,11 +41,10 @@ def get_health():
 
     return report
 if __name__=='__main__':
-
-
-    #print(f'starting health report stream for server :\t{SERVER_NAME}')
+    print("Reporting program is running...")
 
     while True:
         report = get_health()
+        print("Done generating report. Sending report to flask emitting server.")
         r = requests.post(STATS_URL, json=report)
         time.sleep(10)
