@@ -1,5 +1,5 @@
 const express= require("express");
-const User = require("./models/users")
+const User = require("../models/users")
 const router = express.Router();
 const request = require("request");
 const bcrypt=require("bcrypt");
@@ -36,25 +36,7 @@ router.post("/signup", async({body:{firstname,lastname,username,password,email}}
 
         })
     }
-//    console.log(req.body);
-//    request.post({
-//        url:"http://127.0.0.1/Registration",
-//        json:{
-//            Username:req.body.Username,
-//            Password:req.body.Password,
-//            Security:req.body.Security
 
-//        },
-//        headers:{
-//            'Content-type':'application/json'
-//         }
-//    },
-//    function (err,response,body){
-//    if(err){
-//        res.json({message:err})
-//    }
-//    res.send(body);
-// });
 });
 router.post("/signin", ({body:{username,password}},res)=>{
     User.findOne({username:username},"username hash").exec(
@@ -73,15 +55,16 @@ router.post("/signin", ({body:{username,password}},res)=>{
             res.send("User does not exist. Create User");
         }
         })
-    // console.log(req.body);
-    // User.findOne({username:username},"username")
     
-
+});
+router.post("/Add_Server", (req,res)=>{
+   console.log(req.body);
 //    request.post({
-//        url:"http://127.0.0.1/login",
+//        url:"http://127.0.0.1/Add_Server",
 //        json:{
-//            Username:req.body.Username,
-//            Password:req.body.Password,
+//           IPAddress:req.body.IPAddress,
+//           Servername:req.body.Servername,
+//            Username:req.body.Username
 
 //        },
 //        headers:{
@@ -95,47 +78,26 @@ router.post("/signin", ({body:{username,password}},res)=>{
 //    res.send(body);
 // });
 });
-router.post("/Add_Server", (req,res)=>{
-   console.log(req.body);
-   request.post({
-       url:"http://127.0.0.1/Add_Server",
-       json:{
-          IPAddress:req.body.IPAddress,
-          Servername:req.body.Servername,
-           Username:req.body.Username
-
-       },
-       headers:{
-           'Content-type':'application/json'
-        }
-   },
-   function (err,response,body){
-   if(err){
-       res.json({message:err})
-   }
-   res.send(body);
-});
-});
 router.post("/Remove_Server", (req,res)=>{
-   console.log(req.body);
-   request.post({
-       url:"http://127.0.0.1/Remove_Server",
-       json:{
-        Username:req.body.Username,
-        Servername:req.body.Servername
+//    console.log(req.body);
+//    request.post({
+//        url:"http://127.0.0.1/Remove_Server",
+//        json:{
+//         Username:req.body.Username,
+//         Servername:req.body.Servername
        
 
-       },
-       headers:{
-           'Content-type':'application/json'
-        }
-   },
-   function (err,response,body){
-   if(err){
-       res.json({message:err})
-   }
-   res.send(body);
-});
+//        },
+//        headers:{
+//            'Content-type':'application/json'
+//         }
+//    },
+//    function (err,response,body){
+//    if(err){
+//        res.json({message:err})
+//    }
+//    res.send(body);
+// });
 });
 
 router.post("/Display", (req,res)=>{
