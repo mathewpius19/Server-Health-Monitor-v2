@@ -155,26 +155,26 @@ router.post("/Display", (req,res)=>{
    res.send(body);
 });
 });
-router.post("/security", (req,res)=>{
-   console.log(req.body);
-   request.post({
-       url:"http://127.0.0.1/security",
-       json:{
-           Username:req.body.Username,
-           Security:req.body.Security
+// router.post("/security", (req,res)=>{
+//    console.log(req.body);
+//    request.post({
+//        url:"http://127.0.0.1/security",
+//        json:{
+//            Username:req.body.Username,
+//            Security:req.body.Security
 
-       },
-       headers:{
-           'Content-type':'application/json'
-        }
-   },
-   function (err,response,body){
-   if(err){
-       res.json({message:err})
-   }
-   res.send(body);
-});
-});
+//        },
+//        headers:{
+//            'Content-type':'application/json'
+//         }
+//    },
+//    function (err,response,body){
+//    if(err){
+//        res.json({message:err})
+//    }
+//    res.send(body);
+// });
+// });
 
 
 module.exports=router;
