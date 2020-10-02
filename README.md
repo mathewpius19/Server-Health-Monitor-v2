@@ -1,6 +1,5 @@
 # Server-Health-Monitor-v2
 New and Improved Server Health Monitor
-IM TESTING THE GIT WORKFLOW
 Contributors:
 <ul>
 <li>Mathew Pius</li>
