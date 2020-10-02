@@ -38,6 +38,7 @@ router.post("/signup", async({body:{firstname,lastname,username,password,email}}
     }
 
 });
+
 router.post("/signin", ({body:{username,password}},res)=>{
     User.findOne({username:username},"username hash").exec(
         async(err,result)=>{
@@ -133,48 +134,78 @@ router.post("/removeserver", ({body:{username,serverName}},res)=>{
         }
     })
 });
-
-router.post("/Display", (req,res)=>{
-   console.log(req.body);
-   request.post({
-       url:"http://127.0.0.1/Display",
-       json:{
-           Username:req.body.Username,
-          Servername:req.body.Servername,
-          Details:req.body.Details
-
-       },
-       headers:{
-           'Content-type':'application/json'
+router.post("/getservers", ({body:{username,password}},res)=>{
+    User.findOne({username:username}).exec(
+        async (err,result)=>{
+        if(err){
+            res.json({message:err})
+            throw err
         }
-   },
-   function (err,response,body){
-   if(err){
-       res.json({message:err})
-   }
-   res.send(body);
-});
-});
-// router.post("/security", (req,res)=>{
-//    console.log(req.body);
-//    request.post({
-//        url:"http://127.0.0.1/security",
-//        json:{
-//            Username:req.body.Username,
-//            Security:req.body.Security
+        else{
+            if(result){
+                const {hash, servers} = result;
+                const checkAuthentication = await bcrypt.compare(password,hash);
+                if(checkAuthentication){
+                    res.send(servers)
+                }
+                else{
+                    res.send("Authentication Failed. Did not retrieve servers");
+                }
+                }
+                else{
+                    res.send("User does not exist")
+                }
 
-//        },
-//        headers:{
-//            'Content-type':'application/json'
-//         }
-//    },
-//    function (err,response,body){
-//    if(err){
-//        res.json({message:err})
-//    }
-//    res.send(body);
-// });
-// });
+            }
+        }
+    )
+})
+
+//this is under /health routes
+router.post("/display", ({body:{username,password,serverName,details}},res)=>{
+   //console.log(req.body);
+    User.findOne({username:username},"hash").exec(async (err,result)=>{
+
+        if(err){
+            res.json({message:err})
+        }
+        else{
+            if(result){
+                const {hash} = result;
+                const checkAuthentication = await bcrypt.compare(password,hash)
+                    if(checkAuthentication){
+                        request.post({
+                            url:"http://127.0.0.1:80/Display",
+                            json:{
+                                Username:username,
+                               Servername:serverName,
+                               Details:details
+                     
+                            },
+                            headers:{
+                                'Content-type':'application/json'
+                             }
+                        },
+                        (err, {body}) => {
+                                if (err) {
+                                    res.json({ message: err });
+                                }
+                                res.send(body);
+                            });
+                        
+                    }
+                    else{
+                        res.send("Retrieval of data failed.Invalid credentials")
+                    }
+                }
+                else{
+                    res.send("User does not exist");
+                }
+            }
+    })
+})
+
+
 
 
 module.exports=router;

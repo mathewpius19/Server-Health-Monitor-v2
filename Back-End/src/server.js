@@ -14,6 +14,8 @@ require("dotenv/config");
 //Routes 
 const testRoutes = require("./routes/post");
 app.use('/users',testRoutes);
+const healthRoutes = require("./routes/post");
+app.use("/health",healthRoutes);
 
 //Connecting to mongoose server
 mongoose.connect(

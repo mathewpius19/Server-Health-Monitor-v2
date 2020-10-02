@@ -20,11 +20,7 @@ const Signup = () => {
         }
         return 0
       }
-    
-   
-  
-    
-      const formData = {
+    const formData = {
         firstname:firstName,
         lastname:lastName,
         username:username,
@@ -34,7 +30,7 @@ const Signup = () => {
       };
       console.log("Sending post request");
       axios.post("/users/signup", formData)
-      .then((response)=>console.log(response.data))
+      .then((response)=>alert(response.data))
       }
 
     
