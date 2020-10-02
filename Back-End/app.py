@@ -5,30 +5,6 @@ import json
 import time
 
 app=Flask(__name__)
-@app.route("/Add_Server",methods=['POST'])
-def add_server_post():
-    object=request.json
-    ip_address=object["IPAddress"]
-    server_name=object["Servername"]
-    username=object["Username"]
-    conn=sqlite3.connect("Health.db")
-    response_message={"message":"Server Registration Successful"}
-    try:
-        conn.execute(f'insert into {username}_servers (IP_Address,Server_Name) values {ip_address,server_name}')
-        conn.execute(f"create table if not exists {username}_{server_name} (HEALTH_ID integer primary key AUTOINCREMENT,Time_Epoch integer,Disk_Free varchar(80),Bytes_Sent varchar(80),Bytes_Received varchar(80),Packets_Sent varchar(80),Packets_Received varchar(80),Memory_Free varchar(80),Cpu_Usage_Percent varchar(80),Cpu_Time varchar(80));")
-        response_message['message']="Server Registration Successful"
-    except:
-        response_message["message"]="Server Registration Failed"
-    finally:
-        try:
-            conn.commit()
-        except:
-            return "DB commit failed"
-    response_message=json.dumps(response_message)
-    return response_message
-        
-
-
 @app.route("/report",methods=['POST'])
 def report():
     time_epoch=time.time()
