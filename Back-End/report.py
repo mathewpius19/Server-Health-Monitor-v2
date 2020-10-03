@@ -3,7 +3,9 @@ import requests
 import time
 import sys
 
-STATS_URL = ' http://localhost:80/report'
+PORT = 4400
+
+STATS_URL = f'http://localhost:{PORT}/report'
 
 try:
     SERVER_NAME=sys.argv[1]
@@ -41,7 +43,7 @@ def get_health():
 
     return report
 if __name__=='__main__':
-    print("Reporting program is running...")
+    print("Reporting program is running and communicating with app.py at {PORT}...")
 
     while True:
         report = get_health()
