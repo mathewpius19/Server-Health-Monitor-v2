@@ -4,6 +4,8 @@ from flask import request
 import json
 import time
 
+PORT=4400
+
 app=Flask(__name__)
 @app.route("/report",methods=['POST'])
 def report():
@@ -78,6 +80,6 @@ def display():
 
 if __name__ ==("__main__"):
     print("Emitter flask server is running...")
-    print("listening at port 80...")
-    app.run(debug=True,port=80)
+    print(f"listening at port {PORT}...")
+    app.run(debug=True,port=PORT)
     
