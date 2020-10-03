@@ -41,20 +41,19 @@ def display():
     object=request.json
     username=object["Username"]
     servername=object["Servername"]
-    details=object["Details"]
+    OldDetails=object["Details"]
     conn=sqlite3.connect("Health.db")
     health_dict={'message':'Generating Health Report','Health_id':[],'Epoch_Time':[],'Disk_Free':[],'Bytes_Sent':[],'Bytes_Received':[],'Packets_Sent':[],'Packets_Received':[],'Memory_Free':[],'CPU_Usage_Percent':[],'CPU_Time':[]} 
     try:
-    
+        details=OldDetails.replace(" ","").lower()
         health_dict['message']="Generating Health Report"
         cur=conn.cursor()
         if details=='all':
             cur.execute(f" select * from {username}_{servername} order by HEALTH_ID")
-        elif (details=='last 10'):
+        elif (details=='last10'):
             cur.execute(f" select * from {username}_{servername} order by HEALTH_ID desc limit 10")
-        else:
+        elif(details=='first10'):
             cur.execute(f" select * from {username}_{servername} order by HEALTH_ID asc limit 10")
-        
         for row in cur:
             health_dict['Health_id'].append(row[0])
             health_dict['Epoch_Time'].append(row[1])
@@ -67,7 +66,7 @@ def display():
             health_dict['CPU_Usage_Percent'].append(row[8])
             health_dict['CPU_Time'].append(row[9])  
     except:
-        return "Health Report cannot be generated"      
+        return "Health Report cannot be generated.Invalid Credentials"      
     finally:
         try:
             conn.commit()
