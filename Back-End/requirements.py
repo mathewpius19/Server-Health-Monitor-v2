@@ -1,10 +1,11 @@
 import sys
 import os
-os.system("sudo apt install python3-pip")
+password=sys.argv[1]
+username=sys.argv[2]
+servername=sys.argv[3]
+os.system(f"echo {password}|sudo -S apt install python3-pip")
 os.system("pip3 install psutil")
 os.system("pip3 install requests")
-servername=input("Enter server name \n")
-username=input("Enter user name \n")
 os.system(f"python report.py {servername} {username} ")
 
 
