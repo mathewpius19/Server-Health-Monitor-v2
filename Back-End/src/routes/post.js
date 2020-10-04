@@ -8,7 +8,7 @@ const bcrypt=require("bcrypt");
 //     res.send("We are at home!");
 // })
 
-router.post("/signup", async({body:{firstname,lastname,username,password,email}},res)=>{
+router.post("/signup", async({body:{firstName,lastName,username,password,email}},res)=>{
     const userObj = await User.findOne({username:username},"username");
     if(userObj){
         res.send("Username already exists");
@@ -18,8 +18,8 @@ router.post("/signup", async({body:{firstname,lastname,username,password,email}}
             bcrypt.hash(password,salt,
                 (err,hash)=>{
                     const newUser = new User({
-                        firstname:firstname,
-                        lastname:lastname,
+                        firstName:firstName,
+                        lastName:lastName,
                         username:username,
                         hash:hash,
                         email:email,
