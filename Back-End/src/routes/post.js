@@ -175,7 +175,7 @@ router.post("/display", ({body:{username,password,serverName,details}},res)=>{
                 const checkAuthentication = await bcrypt.compare(password,hash)
                     if(checkAuthentication){
                         request.post({
-                            url:"http://127.0.0.1:4400/Display",
+                            url:"http://167.71.237.73:4400/Display",
                             json:{
                                 Username:username,
                                Servername:serverName,
