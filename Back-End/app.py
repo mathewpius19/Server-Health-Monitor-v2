@@ -67,8 +67,8 @@ def display():
             health_dict['Memory_Free'].append(row[7])
             health_dict['CPU_Usage_Percent'].append(row[8])
             health_dict['CPU_Time'].append(row[9])  
-    except:
-        return "Health Report cannot be generated.Invalid Credentials"      
+    except Exception as e:
+        return {"Error":str(e)}       
     finally:
         try:
             conn.commit()

@@ -162,7 +162,7 @@ router.post("/getservers", ({body:{username,password}},res)=>{
 })
 
 //this is under /health routes
-router.post("/display", ({body:{username,password,serverName,details}},res)=>{
+router.post("/display", ({body:{username,password,user,serverName,details}},res)=>{
    //console.log(req.body);
     User.findOne({username:username},"hash").exec(async (err,result)=>{
 
@@ -177,7 +177,7 @@ router.post("/display", ({body:{username,password,serverName,details}},res)=>{
                         request.post({
                             url:"http://167.71.237.73:4400/Display",
                             json:{
-                                Username:username,
+                                Username:user,
                                Servername:serverName,
                                Details:details
                      
