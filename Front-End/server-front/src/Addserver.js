@@ -11,7 +11,7 @@ const Addserver=()=>{
     const [serverPassword, setServerPassword] = useState("");
     const verifyAndSendDetails= ()=>{
         const ssh=false;
-        if((serverName === "") | (serverPassword === "") |(ipAddr==="") | (serverName==="")) {
+        if((serverUser === "") | (serverPassword === "") |(ipAddr==="") | (serverName==="")) {
             alert("Form data not complete");
         }
         else{
