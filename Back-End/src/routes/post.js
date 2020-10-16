@@ -85,13 +85,14 @@ router.post("/addserver", ({body:{username,user,serverName,sshKey,password,ipAdd
                         res.send("Server already exists. Did not add server");
                     }
                     else{
-                        result.servers.push({
+                        const newServer={
                             user:user,
                             serverName:serverName,
                             sshKey:sshKey,
                             ipAddr:ipAddr,
                             password:password
-                        });
+                        };
+                        result.servers.push(newServer);
                         result.save();
                         res.send("Added server to list of existing servers");
                     }
@@ -178,8 +179,8 @@ router.post("/display", ({body:{username,password,user,serverName,details}},res)
                             url:"http://167.71.237.73:4400/Display",
                             json:{
                                 Username:user,
-                               Servername:serverName,
-                               Details:details
+                                Servername:serverName,
+                                Details:details
                      
                             },
                             headers:{
