@@ -17,7 +17,7 @@ const Home = () => {
           <div>
             <Link
               to="/signup"
-              style={{ textDecoration: "none", color: "#5c8a8a" }}
+              style={{ textDecoration: "none", color: "black" }}
             >
               Dont have an account?Click here to create one!
             </Link>
@@ -25,7 +25,7 @@ const Home = () => {
           <div>
             <Link
               to="/signupin"
-              style={{ textDecoration: "none", color: "#5c8a8a" }}
+              style={{ textDecoration: "none", color: "black" }}
             >
               Already have an account?Click here to login!
             </Link>

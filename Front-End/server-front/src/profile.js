@@ -1,6 +1,20 @@
 import React, { Component } from "react";
 import axios from "axios";
-import {navigate} from "@reach/router";
+import {navigate, Link} from "@reach/router";
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Button from '@material-ui/core/Button';
+import ListItem from '@material-ui/core/ListItem';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
+import DnsIcon from '@material-ui/icons/Dns';
+import CircularProgress from "@material-ui/core/CircularProgress";
+import AddIcon from '@material-ui/icons/Add';
 
 
 class Profile extends Component {
@@ -27,46 +41,75 @@ class Profile extends Component {
         }
       });
   }
+  
+
+  
+
   render() {
     if (this.state.loading) {
-      return <h1>Loading...</h1>;
-    } else {
+      return (
+        <div>
+          <CircularProgress/>
+        </div>
+      );
+    } 
+    
+    else {
       const { servers } = this.state;
+     
+      function createData(col1,col2,col3){
+        return{col1, col2, col3}
+      }
+      const rows=[]
+      servers.map(({serverName, ipAddr, sshKey, user, password})=>{
+        const newRow = createData(serverName, user, ipAddr);
+        rows.push(newRow);
+      });
+      
+       
       return (
         <div className="main-body">
           <h2 className="center">{this.state.username}'s Servers</h2>
           
-         
-         
-          <table className="centered striped">
-            <thead>
-              <tr>
-                <th>Servername</th>
-                <th>IP Address</th>
-                <th>SSH Key (enabled:disabled)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {servers.map(
-                ({ serverName, ipAddr, sshKey, user, password }, index) => {
-                  return (
-                    <tr>
-                      <td>{serverName}</td>
-                      <td>{ipAddr}</td>
-                      <td>
-                        {sshKey ? "SSH Key enabled" : "Password access enabled"}
-                      </td>
-                    </tr>
-                  );
-                }
-              )}
-            </tbody>
-          </table>
-          <button
-              className="waves-effect waves-green btn"
-              onClick={()=>{navigate("/addserver")}}>
-                Add Server
-                </button>
+         <TableContainer component={Paper}>
+          <Table  size="small" style={{minWidth:"650", background:"lightblue"}}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Server Name</TableCell>
+                <TableCell>User</TableCell>
+                <TableCell>IP Address</TableCell>
+              </TableRow>
+            </TableHead>
+            
+            <TableBody>
+              {rows.map((row)=>(
+                <TableRow key={row.col1}>
+                  <TableCell component="th" scope="row">
+                  {row.col1}
+                  
+                      <Link key={row.col1} to={`/serverDetails/${this.state.username}/${row.col1}/${row.col2}/${this.state.password}`} style={{ textDecoration: "none", color: "white" }}>
+                      <ListItem button>
+                        <ListItemIcon>
+                          <DnsIcon/>
+                        </ListItemIcon>
+                      </ListItem>
+                      </Link>
+                      
+                  </TableCell>
+                  <TableCell>{row.col2}</TableCell>
+              <TableCell>{row.col3}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+            </Table>
+            </TableContainer>
+
+         <Button
+         variant="contained"
+         color="primary"
+         startIcon={<AddIcon/>}
+         onClick={()=>{navigate("addserver")}}
+         ></Button>
         </div>
       );
     }

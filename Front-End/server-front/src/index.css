@@ -4,6 +4,7 @@
 .main-body
     {
         width: 100%;
+        height:100%;
         padding: 12px 20px;
         margin: 8px 0;
         display: flex;
@@ -11,6 +12,7 @@
         align-items: center;
         border: 1px solid #ccc;
         box-sizing: border-box;
+        background-color: rgb(51, 127, 177);
         
       }
 
@@ -39,6 +41,9 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
 
+  .table{
+    background-color: lightblue;
   }
   
