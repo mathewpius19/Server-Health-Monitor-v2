@@ -1,25 +1,32 @@
 *{
   box-sizing: border-box;
 }
+
+#root{
+  margin:0;
+  padding:0;
+  height:100%;
+  width:100%;
+}
 .main-body
     {
-        width: 100%;
-        height:100%;
+        
         padding: 12px 20px;
-        margin: 8px 0;
+        margin: 0, 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         border: 1px solid #ccc;
         box-sizing: border-box;
-        background-color: rgb(51, 127, 177);
+        /* background-color: rgb(51, 127, 177); */
+        border: 25px;
         
       }
 
   .navbar-container{
     background-color: rebeccapurple;
     font-family: sans-serif;
-    height:15%;
+    height:;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -43,7 +50,8 @@
     justify-content: center;
   }
 
-  .table{
-    background-color: lightblue;
+  .health-data{
+    height: 100%;
   }
+
   
