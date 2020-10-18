@@ -3,10 +3,21 @@ from flask import Flask,render_template
 from flask import request
 import json
 import time
-
+from flask_mail import Mail, Message
+app=Flask(__name__)
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 4400 #default 25 
+app.config['MAIL_USERNAME'] = 'yourId@gmail.com' #insert admin email  
+app.config['MAIL_PASSWORD'] = '*****' #insert admin password
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+email = Mail(app)
 PORT=4400
 
-app=Flask(__name__)
+# ! Consider creating a OS environment file to store ADMIN Email and Password
+
+
+
 @app.route("/report",methods=['POST'])
 def report():
     time_epoch=time.time()
@@ -76,7 +87,17 @@ def display():
             return "DB commit failed"
     health=json.dumps(health_dict)
     return health
-
+@app.route("/mail")
+def mail():
+    mail = request.args.get("Username")
+    password = request.args.get("Password")
+    try:
+        msg = Message("Password Recovery ", sender="", recipients= mail )
+        msg.body = "Your password is {}".format(password)
+        email.send(msg)
+        return "Succesful"
+    except Exception as  e:
+        return(str(e))
 
 if __name__ ==("__main__"):
     print("Emitter flask server is running...")
