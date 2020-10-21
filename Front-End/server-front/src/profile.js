@@ -17,6 +17,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import AddIcon from '@material-ui/icons/Add';
 
 
+
 class Profile extends Component {
   state = {
     username: this.props.username,
@@ -57,12 +58,12 @@ class Profile extends Component {
     else {
       const { servers } = this.state;
      
-      function createData(col1,col2,col3){
-        return{col1, col2, col3}
+      function createData(col1,col2,col3, col4){
+        return{col1, col2, col3, col4}
       }
       const rows=[]
       servers.map(({serverName, ipAddr, sshKey, user, password})=>{
-        const newRow = createData(serverName, user, ipAddr);
+        const newRow = createData(serverName, user, ipAddr, password);
         rows.push(newRow);
       });
       
@@ -87,7 +88,7 @@ class Profile extends Component {
                   <TableCell component="th" scope="row">
                   {row.col1}
                   
-                      <Link key={row.col1} to={`/serverDetails/${this.state.username}/${row.col1}/${row.col2}/${this.state.password}`} style={{ textDecoration: "none", color: "white" }}>
+                      <Link key={row.col1} to={`/serverdetails/${this.state.username}/${row.col1}/${row.col2}/${this.state.password}`} style={{ textDecoration: "none", color: "white" }}>
                       <ListItem button>
                         <ListItemIcon>
                           <DnsIcon/>

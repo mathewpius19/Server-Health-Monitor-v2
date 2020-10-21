@@ -5,7 +5,8 @@ import sys
 
 PORT = 4400
 
-STATS_URL = f'http://localhost:{PORT}/report'
+flask_URL = f'http://localhost:{PORT}/report'
+node_URL = "http://localhost:5555/health/gethealthdata"
 
 try:
     SERVER_NAME=sys.argv[1]
@@ -30,14 +31,10 @@ def get_health():
     report = dict (
         USER_NAME=USER_NAME,
         SERVER_NAME=SERVER_NAME,
+        epoch_time=time.time(),
         cpupercent = cpu_percent,
         cpu_total = ctime.user + ctime.system,
         free_Percnt=(disk_usage.percent),
-        bytes_sent = net_io_counters.bytes_sent,
-        bytes_received = net_io_counters.bytes_recv,
-        packets_sent = net_io_counters.packets_sent,
-        packets_received = net_io_counters.packets_recv,
-
         memory_Free = virtual_memory.free,
         )
 
@@ -48,5 +45,7 @@ if __name__=='__main__':
     while True:
         report = get_health()
         print("Done generating report. Sending report to flask emitting server.")
-        r = requests.post(STATS_URL, json=report)
+        r1 = requests.post(flask_URL, json=report)
+        print("Sending data to node....")
+        r2 = requests.post(node_URL, json=report)
         time.sleep(10)

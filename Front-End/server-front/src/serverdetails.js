@@ -15,16 +15,36 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import openConnection from "socket.io-client"
 
+function subscribeToSocket(ipAddr, callback){
+  const socket = openConnection(`http://${ipAddr}:5000/`);
+  socket.emit("get-health", window.location.href)
+  socket.on("send-health", (receievedData)=>callback(null, receievedData));
+}
 
 class ServerDetails extends Component{
+    constructor(props){
+      super(props)
+      subscribeToSocket(this.state.ipAddr, (err, receivedData)=>{
+        this.setState({data:receivedData, socketRunning:true});
+      })
+    }
+
     state = {
         password:this.props.password,
         user: this.props.user,
         username: this.props.username,
         serverName: this.props.serverName,
-        loading:true
-    }
+        loading:true,
+        socketRunning:false,
+        data:{
+          uptime:"none",
+          operatingSystem:"none",
+          memoryUsedPercent:"none",
+          cpuUsage:"none"
+        },
+      };
     componentDidMount(){
         Axios.post("/health/display",
         {
@@ -48,7 +68,7 @@ class ServerDetails extends Component{
             )
         }
         else{
-            const {serverName, username, password} = this.state;
+            const {serverName, username, password, socketRunning} = this.state;
             function removeServer(){
                 const passw=prompt(
                     "Please enter the password to delete the server"
@@ -72,15 +92,29 @@ class ServerDetails extends Component{
                     alert("Did not delete server");
                 }
             }
+            function startHealthReportingService(){
+              if(socketRunning){
+                alert("Health reporting is already running on remote server")
+              }
+              else{
+                const data = {
+                  username:username,
+                  serverName:serverName,
+                };
+                Axios.post("/health/setupserver", data)
+                .then((response)=>{
+                  console.log(response);
+                  alert("Health service running");
+
+                })
+              }
+            }
+
             const healthData=this.state.health;
             console.log(healthData)
             const {
                 Epoch_Time,
                 Disk_Free,
-                Bytes_Sent,
-                Bytes_Received,
-                Packets_Sent,
-                Packets_Received,
                 Memory_Free,
                 CPU_Usage_Percent,
                 CPU_Time
@@ -90,9 +124,13 @@ class ServerDetails extends Component{
                     <Card style={{ maxHeight: "30%", minHeight: "50%" }}>
             <CardContent>
               <Typography variant="h5">{this.state.serverName}</Typography>
-              <Typography>{this.state.user}</Typography>
+              <Typography variant="h5">{this.state.data.operatingSystem}</Typography>
+              <Typography>User: {this.state.user}</Typography>
+              <Typography>Uptime: {this.state.data.uptime}</Typography>
+              <Typography>CPU Usage: {this.state.data.cpuUsage}</Typography>
+              <Typography>Memory Usage: {this.state.data.memoryUsedPercent}</Typography>
               <Typography>
-                Health reporting service is offline on remote server
+                {this.state.socketRunning?"Server Health Monitoring is On":"Server Health Monitoring for remote server is offline"}
               </Typography>
               <p
                 className="waves-effect btn remove-server"
@@ -100,23 +138,23 @@ class ServerDetails extends Component{
               >
                 REMOVE SERVER
               </p>
+              <p
+              className="waves-effect btn"
+              onClick={startHealthReportingService}
+              ></p>
             </CardContent>
           </Card>
                 );
             }
             const rows=[]
-            function createData(col1,col2, col3, col4, col5, col6, col7, col8, col9)
+            function createData(col1,col2, col3, col4, col5)
             {
-                return{col1, col2, col3, col4, col5, col6, col7, col8, col9}
+                return{col1, col2, col3, col4, col5}
             }
             Epoch_Time.forEach((element, index)=>{
                 const newRow = createData(
                   parseFloat(Epoch_Time[index]),
                   parseFloat(Disk_Free[index]),
-                parseFloat(Bytes_Sent[index]),
-                parseFloat(Bytes_Received[index]),
-                parseFloat(Packets_Sent[index]),
-                parseFloat(Packets_Received[index]),
                 parseFloat(Memory_Free[index]),
                 parseFloat(CPU_Usage_Percent[index]),
                 parseFloat(CPU_Time[index])
@@ -144,10 +182,6 @@ class ServerDetails extends Component{
                         <TableRow>
                           <TableCell>Epoch Time</TableCell>
                           <TableCell align="right">Disk Free (bytes)</TableCell>
-                          <TableCell align="right">Bytes Sent</TableCell>
-                          <TableCell align="right">Bytes Recieved</TableCell>
-                          <TableCell align="right">Packets Sent</TableCell>
-                          <TableCell align="right">Packets Received</TableCell>
                           <TableCell align="right">Memory Free (%)</TableCell>
                           <TableCell align="right">CPU Usage (%)</TableCell>
                           <TableCell align="right">CPU Time Elapsed</TableCell>
@@ -159,15 +193,10 @@ class ServerDetails extends Component{
                             <TableCell component="th" scope="row">
                               {row.col1}
                             </TableCell>
-                            <TableCell align="right">{row.col1}</TableCell>
                             <TableCell align="right">{row.col2}</TableCell>
                             <TableCell align="right">{row.col3}</TableCell>
                             <TableCell align="right">{row.col4}</TableCell>
                             <TableCell align="right">{row.col5}</TableCell>
-                            <TableCell align="right">{row.col6}</TableCell>
-                            <TableCell align="right">{row.col7}</TableCell>
-                            <TableCell align="right">{row.col8}</TableCell>
-                            <TableCell align="right">{row.col9}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>

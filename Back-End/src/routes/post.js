@@ -3,6 +3,7 @@ const User = require("../models/users")
 const router = express.Router();
 const request = require("request");
 const bcrypt=require("bcrypt");
+const {Client} = require("ssh2");
 
 // router.get('/get', (req,res)=>{
 //     res.send("We are at home!");
@@ -161,7 +162,6 @@ router.post("/getservers", ({body:{username,password}},res)=>{
         }
     )
 })
-
 //this is under /health routes
 router.post("/display", ({body:{username,password,user,serverName,details}},res)=>{
    //console.log(req.body);
@@ -172,11 +172,12 @@ router.post("/display", ({body:{username,password,user,serverName,details}},res)
         }
         else{
             if(result){
+                console.log(user, serverName, details,username, password);
                 const {hash} = result;
                 const checkAuthentication = await bcrypt.compare(password,hash)
                     if(checkAuthentication){
                         request.post({
-                            url:"http://167.71.237.73:4400/Display",
+                            url:"http://127.0.0.1:4400/Display",
                             json:{
                                 Username:user,
                                 Servername:serverName,
@@ -198,13 +199,96 @@ router.post("/display", ({body:{username,password,user,serverName,details}},res)
                     else{
                         res.send("Retrieval of data failed.Invalid credentials")
                     }
-                }
+               }
                 else{
                     res.send("User does not exist");
                 }
             }
     })
 })
+router.post("/gethealthdata",({body},res)=>{
+    console.log(body);
+    res.send("health data receievd");
+})
+
+
+
+
+router.post("/setupserver", ({body:{username,serverName,password}},res)=>{
+    User.findOne({username:username}).exec(
+        async(err,result)=>{
+        if(err){
+            res.send("Error occured")
+            throw err
+        }
+        else{
+            if(result){
+            const {hash, servers} = result
+            const checkAuthentication = await bcrypt.compare(password,hash)
+            if(checkAuthentication){
+                const serverIndex = servers.map((el)=>el.serverName===serverName).indexOf(true)
+                const{user, password,ipAddr} = servers[serverIndex]
+                const command = await sshInit(user, password, ipAddr,serverName, res)
+                }
+            }   
+            else{
+                res.send("User does not exist")
+            }
+        }
+
+    })
+
+})
+
+//----Automated SSH --------------------------------------------------------------------------------------------------------------------------------------------------------------
+async function sshInit(user, password, host,serverName, res){
+    const connDetails = {
+        host:host,
+        port:22,
+        username:user,
+        password:password,
+        serverName:serverName
+
+    };
+    const conn = new Client()
+    let log = "";
+    // console.log("Client::READY")
+    conn.on("ready", ()=>{
+        log+="Server Health Monitor has successfully connected to Remote Server";
+        conn.exec(
+            `git clone https://github.com/mathewpius19/Server-Health-Monitor-v2.git;
+            cd Server-Health-Monitor-v2/Back-End/;
+            echo ${password}|sudo -S chmod 777 *.py;
+            python3 requirements.py ${password} ${user} ${serverName};
+            `,
+            (err,stream)=>{
+                if(err){
+                    log+="Connection Failed";
+                }
+                stream.stdout.on("data",(data)=>{
+                    log+=`\n***\n STDOUT : \n${data.toString()}\n***`;
+                })
+                stream.stderr.on("data",(data)=>{
+                    log+=`\n***\n${data.toString()}\n***`
+                })
+                stream.on("close", ()=>{
+                    log+="\n Connection closed from server \n";
+                    conn.end();
+                })
+            }
+        )
+    })
+    conn.on("end",()=>{
+        log+="\n Disconnected from server";
+        res.send(`\n Log:${log}`)
+
+    })
+    conn.on("err",()=>{
+        log+="\n error occurred \n"
+    })
+    conn.connect(connDetails);
+}
+
 
 
 

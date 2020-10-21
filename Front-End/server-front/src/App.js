@@ -9,6 +9,7 @@ import SignInContext from "./signInContext";
 import AppBar from "./AppBar";
 import Logout from "./Logout";
 import Addserver from "./Addserver";
+import ServerDetails from "./serverdetails"
 function App() {
   const signStateHook = useState(["Signed Out", "None", "None"]);
   const [signInState, setSignInState] = useContext(SignInContext);
@@ -34,6 +35,11 @@ function App() {
             links={["/"]}
             path="/addserver"
             />
+            <AppBar
+            options={["Home"]}
+            links={["/"]}
+            path="/serverdetails/:username/:serverName/:serverUser/:password"
+            ></AppBar>
           </Router>
         </div>
         <Router>
@@ -43,6 +49,7 @@ function App() {
           <Profile path="/profile" />
           <Logout path="/logout" />
           <Addserver path="/addserver"/>
+          <ServerDetails path="/serverdetails/:username/:serverName/:user/:password"/>
         </Router>
       </SignInContext.Provider>
     </React.StrictMode>
