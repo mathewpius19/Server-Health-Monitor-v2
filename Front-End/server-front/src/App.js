@@ -38,7 +38,7 @@ function App() {
             <AppBar
             options={["Home"]}
             links={["/"]}
-            path="/serverdetails/:username/:serverName/:serverUser/:password"
+            path="/serverdetails/:username/:serverName/:serverUser/:ipAddr/:password"
             ></AppBar>
           </Router>
         </div>
@@ -49,7 +49,7 @@ function App() {
           <Profile path="/profile" />
           <Logout path="/logout" />
           <Addserver path="/addserver"/>
-          <ServerDetails path="/serverdetails/:username/:serverName/:user/:password"/>
+          <ServerDetails path="/serverdetails/:username/:serverName/:user/:ipAddr/:password"/>
         </Router>
       </SignInContext.Provider>
     </React.StrictMode>

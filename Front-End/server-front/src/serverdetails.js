@@ -37,6 +37,7 @@ class ServerDetails extends Component{
         user: this.props.user,
         username: this.props.username,
         serverName: this.props.serverName,
+        ipAddr:this.props.ipAddr,
         loading:true,
         socketRunning:false,
         data:{

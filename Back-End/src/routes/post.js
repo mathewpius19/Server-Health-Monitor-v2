@@ -262,7 +262,7 @@ async function sshInit(user, password, host,serverName, res){
             echo ${password}|sudo -S chmod 777 *.py;
             npm i socket-io;
             npm i os-utils;
-            npm forever start websockets.js;
+            npx forever start websockets.js;
             python3 requirements.py ${password} ${user} ${serverName};
             `,
             (err,stream)=>{

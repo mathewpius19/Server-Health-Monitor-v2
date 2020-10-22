@@ -25,6 +25,6 @@ mongoose.connect(
     .catch((err)=>{console.error(err)});
 
 //listening at port 3000
-app.listen(5555,()=>{
-    console.log("Listening on port 5555")
+app.listen(5550,()=>{
+    console.log("Listening on port 5550")
 });

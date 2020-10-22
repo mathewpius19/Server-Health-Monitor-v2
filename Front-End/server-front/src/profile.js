@@ -88,7 +88,7 @@ class Profile extends Component {
                   <TableCell component="th" scope="row">
                   {row.col1}
                   
-                      <Link key={row.col1} to={`/serverdetails/${this.state.username}/${row.col1}/${row.col2}/${this.state.password}`} style={{ textDecoration: "none", color: "white" }}>
+                      <Link key={row.col1} to={`/serverdetails/${this.state.username}/${row.col1}/${row.col2}/${row.col3}/${this.state.password}`} style={{ textDecoration: "none", color: "white" }}>
                       <ListItem button>
                         <ListItemIcon>
                           <DnsIcon/>
