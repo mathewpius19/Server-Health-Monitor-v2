@@ -250,6 +250,7 @@ async function sshInit(user, password, host,serverName, res){
         serverName:serverName
 
     };
+    console.log(connDetails);
     const conn = new Client()
     let log = "";
     // console.log("Client::READY")
@@ -257,8 +258,11 @@ async function sshInit(user, password, host,serverName, res){
         log+="Server Health Monitor has successfully connected to Remote Server";
         conn.exec(
             `git clone https://github.com/mathewpius19/Server-Health-Monitor-v2.git;
-            cd Server-Health-Monitor-v2/Back-End/;
+            cd Server-Health-Monitor-v2/Back-End/HealthData;
             echo ${password}|sudo -S chmod 777 *.py;
+            npm i socket-io;
+            npm i os-utils;
+            npm forever start websockets.js;
             python3 requirements.py ${password} ${user} ${serverName};
             `,
             (err,stream)=>{
@@ -288,9 +292,6 @@ async function sshInit(user, password, host,serverName, res){
     })
     conn.connect(connDetails);
 }
-
-
-
 
 
 module.exports=router;

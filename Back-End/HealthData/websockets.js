@@ -1,15 +1,8 @@
 const io = require("socket.io")();
 const os = require("os");
 const utils = require("os-utils");
-const PORT = 5000;
+const PORT = 4000;
 
-function getCPUUsage() {
-  let usage;
-  utils.cpuUsage(
-    (value) => (usage = `CPU Usage: ${(value * 100).toFixed(2)}%`)
-  );
-  return usage;
-}
 
 io.on("connection", (client) => {
   console.log(`Websocket connected to client.${new Date().toString()}`);

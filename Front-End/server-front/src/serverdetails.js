@@ -18,7 +18,7 @@ import Button from "@material-ui/core/Button";
 import openConnection from "socket.io-client"
 
 function subscribeToSocket(ipAddr, callback){
-  const socket = openConnection(`http://${ipAddr}:5000/`);
+  const socket = openConnection(`http://${ipAddr}:4000/`);
   socket.emit("get-health", window.location.href)
   socket.on("send-health", (receievedData)=>callback(null, receievedData));
 }
@@ -27,6 +27,7 @@ class ServerDetails extends Component{
     constructor(props){
       super(props)
       subscribeToSocket(this.state.ipAddr, (err, receivedData)=>{
+        console.log("Received data")
         this.setState({data:receivedData, socketRunning:true});
       })
     }
@@ -100,6 +101,7 @@ class ServerDetails extends Component{
                 const data = {
                   username:username,
                   serverName:serverName,
+                  password:password
                 };
                 Axios.post("/health/setupserver", data)
                 .then((response)=>{
@@ -141,7 +143,9 @@ class ServerDetails extends Component{
               <p
               className="waves-effect btn"
               onClick={startHealthReportingService}
-              ></p>
+              >
+                Set up Server Health Monitoring
+              </p>
             </CardContent>
           </Card>
                 );
