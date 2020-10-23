@@ -24,13 +24,7 @@ function subscribeToSocket(ipAddr, callback){
 }
 
 class ServerDetails extends Component{
-    constructor(props){
-      super(props)
-      subscribeToSocket(this.state.ipAddr, (err, receivedData)=>{
-        console.log("Received data")
-        this.setState({data:receivedData, socketRunning:true});
-      })
-    }
+    
 
     state = {
         password:this.props.password,
@@ -48,20 +42,12 @@ class ServerDetails extends Component{
         },
       };
     componentDidMount(){
-        Axios.post("/health/display",
-        {
-            username:this.state.username,
-            user:this.state.user,
-            password:this.state.password,
-            serverName:this.state.serverName,
-            details:"all"
-        })
-        .then(({data})=>{
-            this.setState({
-                health:data,
-                loading:false
-            })
-        })
+      this.setState({loading:false})
+      subscribeToSocket(this.state.ipAddr, (err, receivedData)=>{
+        // console.log(receivedData)
+        this.setState({data:receivedData, socketRunning:true});
+
+      })
     }
     render(){
         if(this.state.loading){
@@ -113,16 +99,7 @@ class ServerDetails extends Component{
               }
             }
 
-            const healthData=this.state.health;
-            console.log(healthData)
-            const {
-                Epoch_Time,
-                Disk_Free,
-                Memory_Free,
-                CPU_Usage_Percent,
-                CPU_Time
-            } = healthData
-            if(Epoch_Time===undefined){
+            
                 return(
                     <Card style={{ maxHeight: "30%", minHeight: "50%" }}>
             <CardContent>
@@ -150,65 +127,65 @@ class ServerDetails extends Component{
             </CardContent>
           </Card>
                 );
-            }
-            const rows=[]
-            function createData(col1,col2, col3, col4, col5)
-            {
-                return{col1, col2, col3, col4, col5}
-            }
-            Epoch_Time.forEach((element, index)=>{
-                const newRow = createData(
-                  parseFloat(Epoch_Time[index]),
-                  parseFloat(Disk_Free[index]),
-                parseFloat(Memory_Free[index]),
-                parseFloat(CPU_Usage_Percent[index]),
-                parseFloat(CPU_Time[index])
-                );
-                rows.push(newRow);
                 
-            })
-            return (
-                <div className="health-data">
-                  <Card style={{ maxHeight: "29%" }}>
-                    <CardContent>
-                      <Typography variant="h5">{this.state.serverName}</Typography>
-                      <Typography>{this.state.user}</Typography>
-                      <p
-                        className="waves-effect btn remove-server"
-                        onClick={removeServer}
-                      >
-                        REMOVE SERVER
-                      </p>
-                    </CardContent>
-                  </Card>
-                  <TableContainer component={Paper}>
-                    <Table size="small" style={{minWidth:"650", background:"lightblue"}}>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Epoch Time</TableCell>
-                          <TableCell align="right">Disk Free (bytes)</TableCell>
-                          <TableCell align="right">Memory Free (%)</TableCell>
-                          <TableCell align="right">CPU Usage (%)</TableCell>
-                          <TableCell align="right">CPU Time Elapsed</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {rows.map((row, index) => (
-                          <TableRow>
-                            <TableCell component="th" scope="row">
-                              {row.col1}
-                            </TableCell>
-                            <TableCell align="right">{row.col2}</TableCell>
-                            <TableCell align="right">{row.col3}</TableCell>
-                            <TableCell align="right">{row.col4}</TableCell>
-                            <TableCell align="right">{row.col5}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </div>
-            )
+            // const rows=[]
+            // function createData(col1,col2, col3, col4, col5)
+            // {
+            //     return{col1, col2, col3, col4, col5}
+            // }
+            // Epoch_Time.forEach((element, index)=>{
+            //     const newRow = createData(
+            //       parseFloat(Epoch_Time[index]),
+            //       parseFloat(Disk_Free[index]),
+            //     parseFloat(Memory_Free[index]),
+            //     parseFloat(CPU_Usage_Percent[index]),
+            //     parseFloat(CPU_Time[index])
+            //     );
+            //     rows.push(newRow);
+                
+            // })
+            // return (
+            //     <div className="health-data">
+            //       <Card style={{ maxHeight: "29%" }}>
+            //         <CardContent>
+            //           <Typography variant="h5">{this.state.serverName}</Typography>
+            //           <Typography>{this.state.user}</Typography>
+            //           <p
+            //             className="waves-effect btn remove-server"
+            //             onClick={removeServer}
+            //           >
+            //             REMOVE SERVER
+            //           </p>
+            //         </CardContent>
+            //       </Card>
+            //       <TableContainer component={Paper}>
+            //         <Table size="small" style={{minWidth:"650", background:"lightblue"}}>
+            //           <TableHead>
+            //             <TableRow>
+            //               <TableCell>Epoch Time</TableCell>
+            //               <TableCell align="right">Disk Free (bytes)</TableCell>
+            //               <TableCell align="right">Memory Free (%)</TableCell>
+            //               <TableCell align="right">CPU Usage (%)</TableCell>
+            //               <TableCell align="right">CPU Time Elapsed</TableCell>
+            //             </TableRow>
+            //           </TableHead>
+            //           <TableBody>
+            //             {rows.map((row, index) => (
+            //               <TableRow>
+            //                 <TableCell component="th" scope="row">
+            //                   {row.col1}
+            //                 </TableCell>
+            //                 <TableCell align="right">{row.col2}</TableCell>
+            //                 <TableCell align="right">{row.col3}</TableCell>
+            //                 <TableCell align="right">{row.col4}</TableCell>
+            //                 <TableCell align="right">{row.col5}</TableCell>
+            //               </TableRow>
+            //             ))}
+            //           </TableBody>
+            //         </Table>
+            //       </TableContainer>
+            //     </div>
+            //)
         }
     }
 }

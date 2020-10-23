@@ -177,7 +177,7 @@ router.post("/display", ({body:{username,password,user,serverName,details}},res)
                 const checkAuthentication = await bcrypt.compare(password,hash)
                     if(checkAuthentication){
                         request.post({
-                            url:"http://127.0.0.1:4400/Display",
+                            url:"http://localhost:4400/Display",
                             json:{
                                 Username:user,
                                 Servername:serverName,
@@ -206,10 +206,7 @@ router.post("/display", ({body:{username,password,user,serverName,details}},res)
             }
     })
 })
-router.post("/gethealthdata",({body},res)=>{
-    console.log(body);
-    res.send("health data receievd");
-})
+
 
 
 
@@ -228,7 +225,7 @@ router.post("/setupserver", ({body:{username,serverName,password}},res)=>{
             if(checkAuthentication){
                 const serverIndex = servers.map((el)=>el.serverName===serverName).indexOf(true)
                 const{user, password,ipAddr} = servers[serverIndex]
-                const command = await sshInit(user, password, ipAddr,serverName, res)
+                const command = await sshInitSetupServer(user, password, ipAddr,serverName, res)
                 }
             }   
             else{
@@ -241,7 +238,7 @@ router.post("/setupserver", ({body:{username,serverName,password}},res)=>{
 })
 
 //----Automated SSH --------------------------------------------------------------------------------------------------------------------------------------------------------------
-async function sshInit(user, password, host,serverName, res){
+async function sshInitSetupServer(user, password, host,serverName, res){
     const connDetails = {
         host:host,
         port:22,
@@ -250,20 +247,18 @@ async function sshInit(user, password, host,serverName, res){
         serverName:serverName
 
     };
-    console.log(connDetails);
+    // console.log(connDetails);
     const conn = new Client()
     let log = "";
     // console.log("Client::READY")
     conn.on("ready", ()=>{
         log+="Server Health Monitor has successfully connected to Remote Server";
         conn.exec(
-            `git clone https://github.com/mathewpius19/Server-Health-Monitor-v2.git;
-            cd Server-Health-Monitor-v2/Back-End/HealthData;
+            `git clone https://github.com/mathewpius19/Health-Monitoring.git;
+            cd Health-Monitoring/;
             echo ${password}|sudo -S chmod 777 *.py;
-            npm i socket-io;
-            npm i os-utils;
-            npx forever start websockets.js;
-            python3 requirements.py ${password} ${user} ${serverName};
+            echo ${password}|sudo -S npm i socket.io os-utils; 
+            node websockets.js;
             `,
             (err,stream)=>{
                 if(err){
