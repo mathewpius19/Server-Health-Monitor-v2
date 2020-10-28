@@ -163,21 +163,23 @@ router.post("/getservers", ({body:{username,password}},res)=>{
     )
 })
 //this is under /health routes
-router.post("/display", ({body:{username,password,user,serverName,details}},res)=>{
+router.post("/display", ({body:{username,password,serverName,details}},res)=>{
    //console.log(req.body);
-    User.findOne({username:username},"hash").exec(async (err,result)=>{
+    User.findOne({username:username}).exec(async (err,result)=>{
 
         if(err){
             res.json({message:err})
         }
         else{
             if(result){
-                console.log(user, serverName, details,username, password);
-                const {hash} = result;
+                // console.log(user, serverName, details,username, password);
+                const {hash, servers} = result;
                 const checkAuthentication = await bcrypt.compare(password,hash)
                     if(checkAuthentication){
+                        const serverIdx = servers.map((el)=>el.serverName===serverName).indexOf(true)
+                        const {user} = servers[serverIdx];
                         request.post({
-                            url:"http://localhost:4400/Display",
+                            url:"http://167.71.237.73:4400/Display",
                             json:{
                                 Username:user,
                                 Servername:serverName,
@@ -254,11 +256,12 @@ async function sshInitSetupServer(user, password, host,serverName, res){
     conn.on("ready", ()=>{
         log+="Server Health Monitor has successfully connected to Remote Server";
         conn.exec(
-            `git clone https://github.com/mathewpius19/Health-Monitoring.git;
-            cd Health-Monitoring/;
-            echo ${password}|sudo -S chmod 777 *.py;
-            echo ${password}|sudo -S npm i socket.io os-utils; 
-            node websockets.js;
+            `git clone https://github.com/mathewpius19/Health-Monitoring.git;cd Health-Monitoring/;
+            echo ${password}|sudo -S npm i socket.io os-utils forever;
+            npx forever start websockets.js;
+            echo ${password} | sudo -S chmod 777 *.py;
+            python3 requirements.py ${password} ${user} ${serverName};
+            
             `,
             (err,stream)=>{
                 if(err){

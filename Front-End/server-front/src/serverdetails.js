@@ -81,10 +81,8 @@ class ServerDetails extends Component{
                 }
             }
             function startHealthReportingService(){
-              if(socketRunning){
-                alert("Health reporting is already running on remote server")
-              }
-              else{
+              if(!socketRunning){
+                alert("Please wait while your server stats are collected..")
                 const data = {
                   username:username,
                   serverName:serverName,
@@ -94,10 +92,28 @@ class ServerDetails extends Component{
                 .then((response)=>{
                   console.log(response);
                   alert("Health service running");
-
                 })
+
               }
-            }
+              else{
+                alert("Health service is already running!")
+                }
+              }
+              function dataVisualise(){
+                const details =prompt("Enter the details (Last 5, first 5 or all)")
+                const data = {
+                  username : username,
+                  password : password,
+                  serverName : serverName,
+                  details : details
+                }
+                Axios.post("/health/display", data)
+                .then((response)=>{
+                  const {CPU_Time, CPU_Usage_Percent, Disk_Free, Epoch_Time, Memory_Free} = response.data;
+                  
+                })
+
+              }
 
             
                 return(
@@ -122,7 +138,13 @@ class ServerDetails extends Component{
               className="waves-effect btn"
               onClick={startHealthReportingService}
               >
-                Set up Server Health Monitoring
+                Set up Server
+              </p>
+              <p
+              className="waves-effect btn"
+              onClick={dataVisualise}
+              >
+                Data Visualise
               </p>
             </CardContent>
           </Card>
