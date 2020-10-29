@@ -25,19 +25,18 @@ html, body{
         align-items: center;
         border: 1px solid #ccc;
         box-sizing: border-box;
+
         /* background-color: rgb(51, 127, 177); */
-        border: 25px;
-        
       }
 
   .navbar-container{
     background-color: rebeccapurple;
     font-family: sans-serif;
-    height:;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
    }
   .navbar-content{
     display: flex;

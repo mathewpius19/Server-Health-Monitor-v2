@@ -2,20 +2,11 @@ import Axios from "axios"
 import React, { Component } from "react"
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { navigate } from "@reach/router";
-import Table from "@material-ui/core/Table";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TablePagination from "@material-ui/core/TablePagination";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
 import openConnection from "socket.io-client"
+import lineChart from "./linechart";
 
 function subscribeToSocket(ipAddr, callback){
   const socket = openConnection(`http://${ipAddr}:4000/`);
@@ -45,7 +36,7 @@ class ServerDetails extends Component{
       this.setState({loading:false})
       subscribeToSocket(this.state.ipAddr, (err, receivedData)=>{
         // console.log(receivedData)
-        this.setState({data:receivedData, socketRunning:true});
+        this.setState({data:receivedData, socketRunning:true, showChart:false});
 
       })
     }
@@ -108,11 +99,17 @@ class ServerDetails extends Component{
                   details : details
                 }
                 Axios.post("/health/display", data)
-                .then((response)=>{
-                  const {CPU_Time, CPU_Usage_Percent, Disk_Free, Epoch_Time, Memory_Free} = response.data;
+                .then(({data})=>{
                   
+                 
+                    console.log(data)
+                //   return(
+                //  <lineChart data={data} />)
+                   
                 })
-
+              
+                
+                 
               }
 
             
@@ -140,6 +137,7 @@ class ServerDetails extends Component{
               >
                 Set up Server
               </p>
+
               <p
               className="waves-effect btn"
               onClick={dataVisualise}
@@ -150,64 +148,7 @@ class ServerDetails extends Component{
           </Card>
                 );
                 
-            // const rows=[]
-            // function createData(col1,col2, col3, col4, col5)
-            // {
-            //     return{col1, col2, col3, col4, col5}
-            // }
-            // Epoch_Time.forEach((element, index)=>{
-            //     const newRow = createData(
-            //       parseFloat(Epoch_Time[index]),
-            //       parseFloat(Disk_Free[index]),
-            //     parseFloat(Memory_Free[index]),
-            //     parseFloat(CPU_Usage_Percent[index]),
-            //     parseFloat(CPU_Time[index])
-            //     );
-            //     rows.push(newRow);
-                
-            // })
-            // return (
-            //     <div className="health-data">
-            //       <Card style={{ maxHeight: "29%" }}>
-            //         <CardContent>
-            //           <Typography variant="h5">{this.state.serverName}</Typography>
-            //           <Typography>{this.state.user}</Typography>
-            //           <p
-            //             className="waves-effect btn remove-server"
-            //             onClick={removeServer}
-            //           >
-            //             REMOVE SERVER
-            //           </p>
-            //         </CardContent>
-            //       </Card>
-            //       <TableContainer component={Paper}>
-            //         <Table size="small" style={{minWidth:"650", background:"lightblue"}}>
-            //           <TableHead>
-            //             <TableRow>
-            //               <TableCell>Epoch Time</TableCell>
-            //               <TableCell align="right">Disk Free (bytes)</TableCell>
-            //               <TableCell align="right">Memory Free (%)</TableCell>
-            //               <TableCell align="right">CPU Usage (%)</TableCell>
-            //               <TableCell align="right">CPU Time Elapsed</TableCell>
-            //             </TableRow>
-            //           </TableHead>
-            //           <TableBody>
-            //             {rows.map((row, index) => (
-            //               <TableRow>
-            //                 <TableCell component="th" scope="row">
-            //                   {row.col1}
-            //                 </TableCell>
-            //                 <TableCell align="right">{row.col2}</TableCell>
-            //                 <TableCell align="right">{row.col3}</TableCell>
-            //                 <TableCell align="right">{row.col4}</TableCell>
-            //                 <TableCell align="right">{row.col5}</TableCell>
-            //               </TableRow>
-            //             ))}
-            //           </TableBody>
-            //         </Table>
-            //       </TableContainer>
-            //     </div>
-            //)
+            
         }
     }
 }

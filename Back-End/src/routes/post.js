@@ -194,12 +194,23 @@ router.post("/display", ({body:{username,password,serverName,details}},res)=>{
                                 if (err) {
                                     res.json({ message: err });
                                 }
-                                res.send(body);
+                                const final=[];
+                                const keys = Object.keys(body)
+                                for(let i=0;i<body.Health_id.length;i++){
+                                    const obj={};
+                                    keys.forEach((key)=>{
+                                        return(
+                                            obj[key]=body[key][i]
+                                        )
+                                    })
+                                    final.push(obj);
+                                }
+                                res.send(final)
                             });
                         
                     }
                     else{
-                        res.send("Retrieval of data failed.Invalid credentials")
+                        res.send("Retrieval of body failed.Invalid credentials")
                     }
                }
                 else{
@@ -267,11 +278,11 @@ async function sshInitSetupServer(user, password, host,serverName, res){
                 if(err){
                     log+="Connection Failed";
                 }
-                stream.stdout.on("data",(data)=>{
-                    log+=`\n***\n STDOUT : \n${data.toString()}\n***`;
+                stream.stdout.on("body",(body)=>{
+                    log+=`\n***\n STDOUT : \n${body.toString()}\n***`;
                 })
-                stream.stderr.on("data",(data)=>{
-                    log+=`\n***\n${data.toString()}\n***`
+                stream.stderr.on("body",(body)=>{
+                    log+=`\n***\n${body.toString()}\n***`
                 })
                 stream.on("close", ()=>{
                     log+="\n Connection closed from server \n";
@@ -293,3 +304,4 @@ async function sshInitSetupServer(user, password, host,serverName, res){
 
 
 module.exports=router;
+
