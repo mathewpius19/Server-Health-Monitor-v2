@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import * as d3 from "d3";
 import { line } from "d3";
 
-const width = 650;
+const width = 600;
 const height = 400;
 const margin = {top:20, right:5, bottom:20, left:35};
 
@@ -37,7 +37,7 @@ class Chart extends Component{
 
         const timeDomain = d3.extent(data, d=>d.Epoch_Time*1000)
         const cpuUsageDomain = d3.extent(data, d=>(d.CPU_Usage_Percent))
-        const diskFreeDomain = d3.extent(data, d=>d.Disk_Free)
+        const diskFreeDomain = d3.extent(data, d=>d.Bytes_Read)
         const memoryFreeDomain = d3.extent(data, d=>d.Memory_Free)
         xScale.domain(timeDomain)
         yScale1.domain(cpuUsageDomain)
@@ -56,7 +56,7 @@ class Chart extends Component{
         ];
         const line2 = [
             {
-                path:lineGenerator.y((d)=>yScale2((d.Disk_Free)))(data)
+                path:lineGenerator.y((d)=>yScale2((d.Bytes_Read)))(data)
             }
         ]
         const line3=[
@@ -93,10 +93,10 @@ class Chart extends Component{
     render(){
         return(
             
-                <div>
-                    <h3 className="center"> Line Charts</h3>
+                <div className="center" >
+                    <h3 className="center header"> Line Charts</h3>
 
-                <p>CPU Usage Percent vs Time</p>
+                <p className="center">CPU Usage Percent vs Time</p>
                 <svg>
                     
                     <g>
@@ -112,7 +112,7 @@ class Chart extends Component{
 
                 </svg>
                 
-                <p>Disk Free Percent vs Time</p>
+                <p className="center ">Bytes Read by Disk vs Time</p>
                 
                 <svg>
                     
@@ -125,11 +125,11 @@ class Chart extends Component{
                         })}
                     </g>
                     <g ref="xAxis2" transform={`translate(0,${height-margin.bottom})`} g/>
-                    <g ref="yAxis2" transform={`translate(${margin.left},0)`} g/>
+                    <g ref="yAxis2" transform={`translate(${width},0)`} g/>
 
                 </svg>
 
-                <p>Memory Free Percent vs Time</p>
+                <p className="center">Memory Free Percent vs Time</p>
                 <svg>
                     
                     <g>

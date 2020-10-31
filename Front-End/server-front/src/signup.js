@@ -112,10 +112,11 @@ const Signup = () => {
           </label>
         </div>
         <button className="waves-effect waves-green btn">Submit</button>
-      </form>
-      <Link to="/signupin" style={{ textDecoration: "none", color: "red" }}>
+        <Link to="/signupin" style={{ textDecoration: "none", color: "red" }}>
         Already have an account?Click here to log in!
       </Link>
+      </form>
+      
     </div>
   );
 };

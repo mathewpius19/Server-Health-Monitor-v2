@@ -51,7 +51,7 @@ class ServerDetails extends Component{
       })
     }
     dataVisualise(){
-      const details = prompt("Enter the details (all, first 10 or last 10");
+      const details = prompt("Enter the number of rows of data you want from database (all, first 10 or last 10");
       const data = {
         username:this.state.username,
         password:this.state.password,
@@ -61,7 +61,12 @@ class ServerDetails extends Component{
       
       Axios.post("/health/display", data)
       .then(({data})=>{
+        if(data==="Invalid Details Entered"){
+          alert("Invalid Details Entered")
+        }
+        else{
         this.setState({showChart:true, healthData:data})
+        }
       })
     }
 
@@ -121,7 +126,7 @@ class ServerDetails extends Component{
 
             
                 return(
-                  <div id="chart-container">
+                  <div>
                     <Card style={{ maxHeight: "30%", minHeight: "50%" }}>
             <CardContent>
               <Typography variant="h5">{this.state.serverName}</Typography>

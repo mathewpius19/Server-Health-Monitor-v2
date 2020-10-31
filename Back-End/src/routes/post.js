@@ -206,8 +206,13 @@ router.post("/display", ({body:{username,password,serverName,details}},res)=>{
                                     })
                                     final.push(obj);
                                 }
+                                if(final.length==0){
+                                    res.send("Invalid Details Entered")
+                                }
+                                else{
                                 // console.log(final)
                                 res.send(final)
+                                }
                             });
                         
                     }
