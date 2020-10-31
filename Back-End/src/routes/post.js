@@ -164,7 +164,7 @@ router.post("/getservers", ({body:{username,password}},res)=>{
 })
 //this is under /health routes
 router.post("/display", ({body:{username,password,serverName,details}},res)=>{
-   //console.log(req.body);
+   console.log(username,password,serverName,details);
     User.findOne({username:username}).exec(async (err,result)=>{
 
         if(err){
@@ -179,7 +179,7 @@ router.post("/display", ({body:{username,password,serverName,details}},res)=>{
                         const serverIdx = servers.map((el)=>el.serverName===serverName).indexOf(true)
                         const {user} = servers[serverIdx];
                         request.post({
-                            url:"http://167.71.237.73:4400/Display",
+                            url:"http://localhost:4400/Display",
                             json:{
                                 Username:user,
                                 Servername:serverName,
@@ -194,6 +194,7 @@ router.post("/display", ({body:{username,password,serverName,details}},res)=>{
                                 if (err) {
                                     res.json({ message: err });
                                 }
+                                
                                 const final=[];
                                 const keys = Object.keys(body)
                                 for(let i=0;i<body.Health_id.length;i++){
@@ -205,6 +206,7 @@ router.post("/display", ({body:{username,password,serverName,details}},res)=>{
                                     })
                                     final.push(obj);
                                 }
+                                // console.log(final)
                                 res.send(final)
                             });
                         

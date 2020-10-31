@@ -1,0 +1,154 @@
+import React, { Component } from "react";
+import * as d3 from "d3";
+import { line } from "d3";
+
+const width = 650;
+const height = 400;
+const margin = {top:20, right:5, bottom:20, left:35};
+
+class Chart extends Component{
+    state={
+        line1:[],
+        line2:[],
+        line3:[],
+    }
+    xAxis1=d3.axisBottom();
+    xAxis2=d3.axisBottom();
+    xAxis3=d3.axisBottom();
+    yAxis1=d3.axisLeft();
+    yAxis2=d3.axisLeft();
+    yAxis3=d3.axisLeft();
+    
+    static getDerivedStateFromProps(nextProps, prevState){
+        const { data } = nextProps;
+        if(!data){
+            return {};
+        }
+        // console.log(value)
+        const xScale = d3.scaleTime().range([margin.left,width-margin.right]);
+        const yScale1 = d3.scaleLinear().range([height-margin.bottom,margin.top])
+        const yScale2 = d3.scaleLinear().range([height-margin.bottom,margin.top])
+        const yScale3 = d3.scaleLinear().range([height-margin.bottom,margin.top])
+         
+   
+            //new Date(d.Epoch_Time*1000).toLocaleString().split(' ')[0]
+
+        //Set Domains on Scales
+
+        const timeDomain = d3.extent(data, d=>d.Epoch_Time*1000)
+        const cpuUsageDomain = d3.extent(data, d=>(d.CPU_Usage_Percent))
+        const diskFreeDomain = d3.extent(data, d=>d.Disk_Free)
+        const memoryFreeDomain = d3.extent(data, d=>d.Memory_Free)
+        xScale.domain(timeDomain)
+        yScale1.domain(cpuUsageDomain)
+        yScale2.domain(diskFreeDomain)
+        yScale3.domain(memoryFreeDomain)
+
+         
+        //Create and use line generator to plot the line charts
+
+        const lineGenerator = d3.line().x(d=>xScale(d.Epoch_Time*1000))
+        
+        const line1 = [
+            {
+                path:lineGenerator.y((d)=>yScale1((d.CPU_Usage_Percent)))(data)
+            },
+        ];
+        const line2 = [
+            {
+                path:lineGenerator.y((d)=>yScale2((d.Disk_Free)))(data)
+            }
+        ]
+        const line3=[
+            {
+                path:lineGenerator.y((d)=>yScale3((d.Memory_Free)))(data)
+            }
+        ]
+        return {line1,line2,line3, xScale, yScale1,yScale2,yScale3};
+    }
+
+    componentDidUpdate(){
+        this.xAxis1.scale(this.state.xScale);
+        d3.select(this.refs.xAxis1).call(this.xAxis1);
+        
+        this.xAxis2.scale(this.state.xScale);
+        d3.select(this.refs.xAxis2).call(this.xAxis2);
+        
+        this.xAxis3.scale(this.state.xScale);
+        d3.select(this.refs.xAxis3).call(this.xAxis3);
+
+        this.yAxis1.scale(this.state.yScale1);
+        d3.select(this.refs.yAxis1).call(this.yAxis1);
+        
+        this.yAxis2.scale(this.state.yScale2);
+        d3.select(this.refs.yAxis2).call(this.yAxis2);
+        
+        this.yAxis3.scale(this.state.yScale3);
+        d3.select(this.refs.yAxis3).call(this.yAxis3);
+
+    }
+
+    
+
+    render(){
+        return(
+            
+                <div>
+                    <h3 className="center"> Line Charts</h3>
+
+                <p>CPU Usage Percent vs Time</p>
+                <svg>
+                    
+                    <g>
+                        {this.state.line1.map((d,i)=>{
+                            
+                                return <path d={d.path} fill="none" stroke="red" />
+                            
+                           
+                        })}
+                    </g>
+                    <g ref="xAxis1" transform={`translate(0,${height-margin.bottom})`} g/>
+                    <g ref="yAxis1" transform={`translate(${margin.left},0)`} g/>
+
+                </svg>
+                
+                <p>Disk Free Percent vs Time</p>
+                
+                <svg>
+                    
+                    <g>
+                        {this.state.line2.map((d,i)=>{
+                            
+                                return <path d={d.path} fill="none" stroke="blue" />
+                           
+                            
+                        })}
+                    </g>
+                    <g ref="xAxis2" transform={`translate(0,${height-margin.bottom})`} g/>
+                    <g ref="yAxis2" transform={`translate(${margin.left},0)`} g/>
+
+                </svg>
+
+                <p>Memory Free Percent vs Time</p>
+                <svg>
+                    
+                    <g>
+                        {this.state.line3.map((d,i)=>{
+                            
+                                return <path d={d.path} fill="none" stroke = "purple" />
+                            
+                        })}
+                    </g>
+                    <g ref="xAxis3" transform={`translate(0,${height-margin.bottom})`} g/>
+                    <g ref="yAxis3" transform={`translate(${margin.left},0)`} g/>
+
+                </svg>
+                </div>
+           
+        )
+    }
+}
+export default Chart;
+
+
+

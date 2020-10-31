@@ -6,7 +6,13 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import openConnection from "socket.io-client"
-import lineChart from "./linechart";
+import Chart from "./linechart";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
+
 
 function subscribeToSocket(ipAddr, callback){
   const socket = openConnection(`http://${ipAddr}:4000/`);
@@ -16,7 +22,10 @@ function subscribeToSocket(ipAddr, callback){
 
 class ServerDetails extends Component{
     
-
+    constructor(props){
+      super(props)
+      this.dataVisualise = this.dataVisualise.bind(this)
+    }
     state = {
         password:this.props.password,
         user: this.props.user,
@@ -31,15 +40,33 @@ class ServerDetails extends Component{
           memoryUsedPercent:"none",
           cpuUsage:"none"
         },
-      };
+        healthData:"",
+      }      
     componentDidMount(){
       this.setState({loading:false})
       subscribeToSocket(this.state.ipAddr, (err, receivedData)=>{
         // console.log(receivedData)
-        this.setState({data:receivedData, socketRunning:true, showChart:false});
+        this.setState({data:receivedData, socketRunning:true});
 
       })
     }
+    dataVisualise(){
+      const details = prompt("Enter the details (all, first 10 or last 10");
+      const data = {
+        username:this.state.username,
+        password:this.state.password,
+        serverName: this.state.serverName,
+        details:details,
+      }
+      
+      Axios.post("/health/display", data)
+      .then(({data})=>{
+        this.setState({showChart:true, healthData:data})
+      })
+    }
+
+    
+
     render(){
         if(this.state.loading){
             return(
@@ -90,30 +117,11 @@ class ServerDetails extends Component{
                 alert("Health service is already running!")
                 }
               }
-              function dataVisualise(){
-                const details =prompt("Enter the details (Last 5, first 5 or all)")
-                const data = {
-                  username : username,
-                  password : password,
-                  serverName : serverName,
-                  details : details
-                }
-                Axios.post("/health/display", data)
-                .then(({data})=>{
-                  
-                 
-                    console.log(data)
-                //   return(
-                //  <lineChart data={data} />)
-                   
-                })
               
-                
-                 
-              }
 
             
                 return(
+                  <div id="chart-container">
                     <Card style={{ maxHeight: "30%", minHeight: "50%" }}>
             <CardContent>
               <Typography variant="h5">{this.state.serverName}</Typography>
@@ -140,14 +148,34 @@ class ServerDetails extends Component{
 
               <p
               className="waves-effect btn"
-              onClick={dataVisualise}
+              onClick={this.dataVisualise}
               >
                 Data Visualise
               </p>
             </CardContent>
+            
+            
           </Card>
+          <Chart data={this.state.healthData}/>
+          {/* <List>
+                  <ListItem button>
+                    <ListItemIcon>
+                    <LocalHospitalIcon/>
+                    </ListItemIcon>
+                    <ListItemText
+                    primary="CPU Usage Percent"/>
+                    <Chart data={this.state.healthData, } />
+                  </ListItem>
+          </List> */}
+
+         
+          </div >
+          
+          
+          
+          
+
                 );
-                
             
         }
     }
