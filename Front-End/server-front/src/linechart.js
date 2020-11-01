@@ -68,6 +68,10 @@ class Chart extends Component{
     }
 
     componentDidUpdate(){
+        if(this.state.line1.length===0){
+            return{}
+        }
+        else{
         this.xAxis1.scale(this.state.xScale);
         d3.select(this.refs.xAxis1).call(this.xAxis1);
         
@@ -87,6 +91,7 @@ class Chart extends Component{
         d3.select(this.refs.yAxis3).call(this.yAxis3);
 
     }
+}
 
     
 

@@ -7,11 +7,6 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import openConnection from "socket.io-client"
 import Chart from "./linechart";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 
 
 function subscribeToSocket(ipAddr, callback){
@@ -68,9 +63,10 @@ class ServerDetails extends Component{
         this.setState({showChart:true, healthData:data})
         }
       })
+      
+      
     }
 
-    
 
     render(){
         if(this.state.loading){
@@ -123,7 +119,7 @@ class ServerDetails extends Component{
                 }
               }
               
-
+              
             
                 return(
                   <div>
@@ -161,26 +157,11 @@ class ServerDetails extends Component{
             
             
           </Card>
+          
           <Chart data={this.state.healthData}/>
-          {/* <List>
-                  <ListItem button>
-                    <ListItemIcon>
-                    <LocalHospitalIcon/>
-                    </ListItemIcon>
-                    <ListItemText
-                    primary="CPU Usage Percent"/>
-                    <Chart data={this.state.healthData, } />
-                  </ListItem>
-          </List> */}
-
          
           </div >
-          
-          
-          
-          
-
-                );
+          );
             
         }
     }

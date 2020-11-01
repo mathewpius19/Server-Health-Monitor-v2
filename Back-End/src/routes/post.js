@@ -179,7 +179,7 @@ router.post("/display", ({body:{username,password,serverName,details}},res)=>{
                         const serverIdx = servers.map((el)=>el.serverName===serverName).indexOf(true)
                         const {user} = servers[serverIdx];
                         request.post({
-                            url:"http://localhost:4400/Display",
+                            url:"http://167.71.237.73:4400/Display",
                             json:{
                                 Username:user,
                                 Servername:serverName,
@@ -190,6 +190,7 @@ router.post("/display", ({body:{username,password,serverName,details}},res)=>{
                                 'Content-type':'application/json'
                              }
                         },
+                        
                         (err, {body}) => {
                                 if (err) {
                                     res.json({ message: err });
