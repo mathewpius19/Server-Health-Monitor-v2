@@ -90,6 +90,8 @@ svg text {
   }
 
   .legend-content{
-    width:20%;
-    height:3%;
+    display:flex;
+    flex-direction: column;
+    width:10%;
+    height:10%;
   }
