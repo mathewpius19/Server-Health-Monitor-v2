@@ -14,16 +14,46 @@ const Addserver=()=>{
         if((serverUser === "") | (serverPassword === "") |(ipAddr==="") | (serverName==="")) {
             alert("Form data not complete");
         }
-        else{
-        const serverDetails = {
+        const serverUserChar0 = parseInt(serverUser.charAt(0));
+        const serverNameChar0 = parseInt(serverName.charAt(0));
+        var regex = /^[A-Za-z0-9 ]+$/ //Regular expression containing special characters
+        var isValidServerPass = regex.test(serverPassword);
+        var isValidServerUser = regex.test(serverUser);
+        var isValidServerName = regex.test(serverName);
+          if (!isValidServerPass) {
+            alert("Password should not contain special characters.");
+          }
+          else if(serverPassword.indexOf(' ') >= 0){
+            alert("Password should not contain spaces");
+          }
+          else if(Number.isInteger(serverUserChar0)){
+            alert("Username should not start with a number")
+          }
+          else if(serverUser.indexOf(' ') >= 0){
+            alert("Username should not contain spaces");
+          }
+          else if (!isValidServerUser) {
+            alert("Username should not contain special characters.");
+          }
+          else if(Number.isInteger(serverNameChar0)){
+            alert("Server name should not start with a number")
+          }
+          else if(serverName.indexOf(' ') >= 0){
+            alert("Server name should not contain spaces");
+          }
+          else if (!isValidServerName) {
+            alert("Username should not contain special characters.");
+          }
+          else{
+            const serverDetails = {
             serverName : serverName,
             sshKey : ssh,
             ipAddr : ipAddr,
             user : serverUser,
             password : serverPassword,
             username: signInState[1]
-        }
-    
+          }
+
         Axios.post("/users/addserver", serverDetails)
         .then((response)=>{
             if( (response.data === "New Server Created!") | (response.data === "Added server to list of existing servers")){
@@ -39,7 +69,7 @@ const Addserver=()=>{
     return(
         <div className="main-body">
             <h1 className="header font center">Add Server</h1>
-            <form 
+            <form
             onSubmit={(e)=>{
                 e.preventDefault();
                 verifyAndSendDetails();
@@ -47,7 +77,7 @@ const Addserver=()=>{
                 <div className="form-content">
                     <label htmlFor="server-label">
                         Servername
-                        <input 
+                        <input
                         id="servername"
                         value={serverName}
                         placeholder="Servername"
@@ -55,7 +85,7 @@ const Addserver=()=>{
                         onChange={(e) => setServerName(e.target.value)}
                         />
                     </label>
-                    
+
                     <label htmlFor="ipAddr-label">
                         IP Address
                         <input
@@ -93,3 +123,5 @@ const Addserver=()=>{
     )
 }
 export default Addserver;
+
+//Resending it

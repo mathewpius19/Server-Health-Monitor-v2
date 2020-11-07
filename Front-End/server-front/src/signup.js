@@ -11,8 +11,29 @@ const Signup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   function verifyDetails() {
+
+    const userChar0 = parseInt(username.charAt(0));
+    var regex = /^[A-Za-z0-9 ]+$/ //Regular expression containing special characters
+    var isValidPass = regex.test(password);
+    var isValidUser = regex.test(username);
+      if (!isValidPass) {
+        alert("Password should not contain special characters."); 
+      }
+      else if(password.indexOf(' ') >= 0){
+        alert("Password should not contain spaces");
+      }
+      else if(Number.isInteger(userChar0)){
+        alert("Username should not start with a number")
+      }
+      else if(username.indexOf(' ') >= 0){
+        alert("Username should not contain spaces");
+      }
+      else if (!isValidUser) {
+        alert("Username should not contain special characters.");
+      }
+
     if (password !== password2) {
-      alert("Passwords do no match");
+      alert("Passwords do not match"); //Checks if initially entered password matches the verification password
     } else {
       if (
         (username === "") |
@@ -122,8 +143,10 @@ const Signup = () => {
         Already have an account?Click here to log in!
       </Link>
       </form>
-      
+
     </div>
   );
 };
 export default Signup;
+
+//Resending it
