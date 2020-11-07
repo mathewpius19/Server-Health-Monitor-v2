@@ -123,7 +123,7 @@ class ServerDetails extends Component{
             
                 return(
                   <div>
-                    <Card style={{ maxHeight: "30%", minHeight: "50%" }}>
+                    <Card style={{ maxHeight: "30%", minHeight: "50%", backgroundColor: "#e0f2f1"}}>
             <CardContent>
               <Typography variant="h5">{this.state.serverName}</Typography>
               <Typography variant="h5">{this.state.data.operatingSystem}</Typography>

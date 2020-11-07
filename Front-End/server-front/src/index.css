@@ -20,13 +20,13 @@ svg {
   border: 1px solid #666;
   margin: 5px;
   /* vertical-align: top; */
-  height:60%;
-  width:40%;
+  height:70%;
+  width: 50%;
   
 }
 
 svg text {
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 10px;
 
 }
@@ -40,21 +40,27 @@ svg text {
         display: flex;
         flex-direction: column;
         align-items: center;
-        border: 1px solid #ccc;
+        border: 1px solid rgba(197, 120, 85, 0.575);
         box-sizing: border-box;
+        background-color: hsl(36, 85%, 69%);
+        background-size: cover;
+        font-family: 'Grenze Gotisch', cursive;
         
-
+        
         /* background-color: rgb(51, 127, 177); */
       }
+      
 
   .navbar-container{
-    background-color: rebeccapurple;
+    background: url('./desert.jpg')no-repeat center fixed;     
+    background-size: cover;
     font-family: sans-serif;
+    font-size: 3vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height:50%;
+    height: 100%;
     
 
    }
@@ -66,18 +72,21 @@ svg text {
   }
   .logo{
     color: rgb(220, 220, 238);
-    font-family: sans-serif;
-    font-size: 40px;
+    font-family: 'Grenze Gotisch', cursive;
+    font-size: 15vh;
   }
 
   .form-content{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    color: #5d4037;
+    font-family: 'Roboto', sans-serif;
   }
 
   .health-data{
     height: 100%;
+    background-color: hsl(36, 85%, 69%);
   }
 
   

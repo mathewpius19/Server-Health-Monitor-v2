@@ -42,7 +42,7 @@ const Signup = () => {
 
   return (
     <div className="main-body">
-      <h1 className="header font center">Register</h1>
+      <h1 className="header font center red-text">Register</h1>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -50,7 +50,8 @@ const Signup = () => {
         }}
       >
         <div className="form-content">
-          <label htmlFor="username-label">
+          <label htmlFor="username-label"
+          style = {{color: '#5d4037', fontSize: 15}}>
             Username
             <input
               id="username"
@@ -60,7 +61,8 @@ const Signup = () => {
             />
           </label>
 
-          <label htmlFor="password-label">
+          <label htmlFor="password-label"
+          style = {{color: '#5d4037', fontSize: 15}}>
             Password
             <input
               id="password"
@@ -70,7 +72,8 @@ const Signup = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
-          <label htmlFor="retypePassword-label">
+          <label htmlFor="retypePassword-label"
+          style = {{color: '#5d4037', fontSize: 15}}>
             Retype Password
             <input
               id="retype-password"
@@ -81,7 +84,8 @@ const Signup = () => {
             />
           </label>
 
-          <label htmlFor="email-label">
+          <label htmlFor="email-label"
+          style = {{color: '#5d4037', fontSize: 15}}>
             Email
             <input
               id="email"
@@ -92,7 +96,8 @@ const Signup = () => {
             />
           </label>
 
-          <label htmlFor="firstName-label">
+          <label htmlFor="firstName-label"
+          style = {{color: '#5d4037', fontSize: 15}}>
             FirstName
             <input
               id="firstName"
@@ -101,7 +106,8 @@ const Signup = () => {
               onChange={(e) => setFirstName(e.target.value)}
             />
           </label>
-          <label htmlFor="lastName-label">
+          <label htmlFor="lastName-label"
+          style = {{color: '#5d4037', fontSize: 15, fontFamily:'sans-serif'}}>
             LastName
             <input
               id="lastName"
@@ -112,7 +118,7 @@ const Signup = () => {
           </label>
         </div>
         <button className="waves-effect waves-green btn">Submit</button>
-        <Link to="/signupin" style={{ textDecoration: "none", color: "red" }}>
+        <Link to="/signupin" style={{ textDecoration: "none", color: "red", fontSize: 11, fontFamily:'sans-serif' }}>
         Already have an account?Click here to log in!
       </Link>
       </form>

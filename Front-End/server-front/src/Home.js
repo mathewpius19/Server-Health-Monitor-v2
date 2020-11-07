@@ -11,16 +11,15 @@ const Home = () => {
     return (
      
       <div className="main-body" id="root">
-        <h1 className="header font center purple-text">Server Health Monitor</h1>
+        <h1 className="header font center red-text">Server Health Monitor</h1>
           <div className="description">
             <p className=" black-text font center text-darken-3 flow-text">
-              This is a new and improved Server Health Monitor. Join now if you
-              dont want to screw up your remote server! &#128526;
-            </p>
-          <div>
+            <img src= "main.jpg" width="50%" height="50%"/>
+              </p>
+          </div>
             <p><Link
               to="/signup"
-              style={{ textDecoration: "none", color: "black" }}
+              style={{ textDecoration: "none", color: "#5d4037", fontFamily: "sans-serif", fontSize: 15 }}
             >
               Dont have an account?Click here to create one!
             </Link>
@@ -28,15 +27,15 @@ const Home = () => {
             <p>
             <Link
               to="/signupin"
-              style={{ textDecoration: "none", color: "black" }}
+              style={{ textDecoration: "none", color: "#5d4037", fontFamily: "sans-serif", fontSize: 15 }}
             >
               Already have an account?Click here to login!
             </Link>
             </p>
           </div>
           
-        </div>
-      </div>
+        
+      
      
     );
   } else {
