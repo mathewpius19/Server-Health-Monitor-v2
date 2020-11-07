@@ -177,9 +177,9 @@ router.post("/display", ({body:{username,password,serverName,details}},res)=>{
                 const checkAuthentication = await bcrypt.compare(password,hash)
                     if(checkAuthentication){
                         const serverIdx = servers.map((el)=>el.serverName===serverName).indexOf(true)
-                        const {user} = servers[serverIdx];
+                        const {user, ipAddr} = servers[serverIdx];
                         request.post({
-                            url:"http://167.71.237.73:4400/Display",
+                            url:`http://${ipAddr}:4400/Display`,
                             json:{
                                 Username:user,
                                 Servername:serverName,
@@ -284,7 +284,8 @@ async function sshInitSetupServer(user, password, host,serverName, res){
             `,
             (err,stream)=>{
                 if(err){
-                    log+="Connection Failed";
+                    res.send("error");
+                    conn.end();
                 }
                 stream.stdout.on("body",(body)=>{
                     log+=`\n***\n STDOUT : \n${body.toString()}\n***`;
@@ -304,8 +305,9 @@ async function sshInitSetupServer(user, password, host,serverName, res){
         res.send(`\n Log:${log}`)
 
     })
-    conn.on("err",()=>{
-        log+="\n error occurred \n"
+    conn.on("error",()=>{
+        res.send("Error Occured. Invalid server details")
+        
     })
     conn.connect(connDetails);
 }

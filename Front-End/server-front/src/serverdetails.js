@@ -1,12 +1,12 @@
 import Axios from "axios"
 import React, { Component } from "react"
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { navigate } from "@reach/router";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import openConnection from "socket.io-client"
 import Chart from "./linechart";
+import { LinearProgress } from "@material-ui/core";
 
 
 function subscribeToSocket(ipAddr, callback){
@@ -46,6 +46,7 @@ class ServerDetails extends Component{
       })
     }
     dataVisualise(){
+      if(this.state.showChart){
       const details = prompt("Enter the number of rows of data you want from database (all, first 10 or last 10");
       const data = {
         username:this.state.username,
@@ -60,10 +61,13 @@ class ServerDetails extends Component{
           alert("Invalid Details Entered")
         }
         else{
-        this.setState({showChart:true, healthData:data})
+        this.setState({healthData:data})
         }
       })
-      
+    }
+    else{
+      alert("Server is not set up for Data Visualization")
+    }
       
     }
 
@@ -71,7 +75,7 @@ class ServerDetails extends Component{
     render(){
         if(this.state.loading){
             return(
-                <CircularProgress/>
+                <LinearProgress/>
             )
         }
         else{
@@ -110,20 +114,25 @@ class ServerDetails extends Component{
                 Axios.post("/health/setupserver", data)
                 .then((response)=>{
                   console.log(response);
-                  alert("Health service running");
-                })
-
+                  if(response.data==="Error Occured. Invalid server details"){
+                    alert(response.data)
+                  }
+                  else{
+                  alert("Health service has been set up on server.");
+                  }
+                })  
               }
               else{
                 alert("Health service is already running!")
+               
+               
                 }
               }
-              
               
             
                 return(
                   <div>
-                    <Card style={{ maxHeight: "30%", minHeight: "50%", backgroundColor: "#e0f2f1"}}>
+                    <Card style={{ maxHeight: "30%", minHeight: "50%", backgroundColor: "hsl(22, 68%, 53%)"}}>
             <CardContent>
               <Typography variant="h5">{this.state.serverName}</Typography>
               <Typography variant="h5">{this.state.data.operatingSystem}</Typography>
@@ -132,7 +141,7 @@ class ServerDetails extends Component{
               <Typography>CPU Usage: {this.state.data.cpuUsage}</Typography>
               <Typography>Memory Usage: {this.state.data.memoryUsedPercent}</Typography>
               <Typography>
-                {this.state.socketRunning?"Server Health Monitoring is On":"Server Health Monitoring for remote server is offline"}
+              {this.state.socketRunning?"Server Health Monitoring is On🩺":"Server Health Monitoring for remote server is offline❌"}
               </Typography>
               <p
                 className="waves-effect btn remove-server"

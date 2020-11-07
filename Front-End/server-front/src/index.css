@@ -20,8 +20,8 @@ svg {
   border: 1px solid #666;
   margin: 5px;
   /* vertical-align: top; */
-  height:70%;
-  width: 50%;
+  height:60%;
+  width: 40%;
   
 }
 
@@ -86,7 +86,10 @@ svg text {
 
   .health-data{
     height: 100%;
-    background-color: hsl(36, 85%, 69%);
+    background-color: hsl(22, 68%, 53%);
   }
 
-  
+  .legend-content{
+    width:20%;
+    height:3%;
+  }

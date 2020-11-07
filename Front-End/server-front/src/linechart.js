@@ -1,12 +1,20 @@
 import React, { Component } from "react";
 import * as d3 from "d3";
 import { color, line } from "d3";
+import {LegendOrdinal, LegendItem, LegendLabel} from "@vx/legend";
+import {  scaleOrdinal  } from '@vx/scale';
 
 const width = 600;
 const height = 400;
 const margin = {top:20, right:5, bottom:20, left:35};
 
 
+const ordinalColorScale = scaleOrdinal({
+    domain: ["real","predicted"],
+    range:["red", "blue"]
+})
+
+const legendGlyphSize = "100%";
 class Chart extends Component{
     state={
         line1:[],
@@ -101,7 +109,30 @@ class Chart extends Component{
             
                 <div className="center" >
                     <h3 className="center header"> Line Charts</h3>
-
+                    <LegendOrdinal scale={ordinalColorScale} labelFormat={label => `${label.toUpperCase()}`}>
+                        {labels=>{
+                            return(
+                            <div className="legend-content">
+                                {labels.map((label,i)=>{
+                                    return(
+                                        <LegendItem
+                                        key={`legend-quantile-${i}`}
+                                        margin='0 5px'
+                                        >
+                                            <svg width={legendGlyphSize} height={legendGlyphSize}>
+                                                <rect fill={label.value} width={legendGlyphSize} height={legendGlyphSize} />
+                                            </svg>
+                                            <LegendLabel align="left" margin ="0 0 0 4px">
+                                                {label.text}
+                                            </LegendLabel>
+                                        </LegendItem>
+                                    )
+                                })}
+                            </div>
+                            )}}
+                    </LegendOrdinal>
+                    
+                    
                 <p className="center">CPU Usage Percent vs Time</p>
                 <svg>
                     

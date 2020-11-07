@@ -13,7 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import DnsIcon from '@material-ui/icons/Dns';
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { LinearProgress } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 
 
@@ -50,7 +50,7 @@ class Profile extends Component {
     if (this.state.loading) {
       return (
         <div>
-          <CircularProgress/>
+          <LinearProgress/>
         </div>
       );
     } 
@@ -73,7 +73,7 @@ class Profile extends Component {
           <h2 className="center">{this.state.username}'s Servers</h2>
           
          <TableContainer component={Paper}>
-          <Table  size="small" style={{minWidth:"650", background:"lightblue"}}>
+          <Table  size="small" style={{minWidth:"650", background: "hsl(22, 68%, 53%)"}}>
             <TableHead>
               <TableRow>
                 <TableCell>Server Name</TableCell>
