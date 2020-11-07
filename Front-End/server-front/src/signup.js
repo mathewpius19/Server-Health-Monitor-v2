@@ -142,3 +142,5 @@ const Signup = () => {
   );
 };
 export default Signup;
+
+//Resending it
