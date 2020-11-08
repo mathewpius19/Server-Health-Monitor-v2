@@ -1,6 +1,9 @@
 import React, { useContext, useState } from "react";
 import { Link, navigate } from "@reach/router";
 import axios from "axios";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
 import SignInContext from "./signInContext";
 
 const Signupin = () => {
@@ -32,6 +35,8 @@ const Signupin = () => {
   return (
     <div className="main-body">
       <h1 className="header font center red-text">Login</h1>
+      <Card style={{ maxHeight: "40%", minHeight: "40%", backgroundColor: "hsl(22, 68%, 53%)"}}>
+        <CardContent>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -67,6 +72,8 @@ const Signupin = () => {
           Dont have an account?Click here to create one!
         </Link>
       </form>
+      </CardContent>
+      </Card>
     </div>
   );
 };

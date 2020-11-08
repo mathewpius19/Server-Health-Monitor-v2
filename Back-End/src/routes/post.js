@@ -195,7 +195,10 @@ router.post("/display", ({body:{username,password,serverName,details}},res)=>{
                                 if (err) {
                                     res.json({ message: err });
                                 }
-                                
+                                if(body==="Enough Data is not generated"){
+                                    res.send("Enough Data is not generated.Please wait...")
+                                }
+                                else{
                                 const final=[];
                                 const keys = Object.keys(body)
                                 for(let i=0;i<body.Health_id.length;i++){
@@ -211,9 +214,10 @@ router.post("/display", ({body:{username,password,serverName,details}},res)=>{
                                     res.send("Invalid Details Entered")
                                 }
                                 else{
-                                // console.log(final)
+                                 console.log(final)
                                 res.send(final)
                                 }
+                            }
                             });
                         
                     }

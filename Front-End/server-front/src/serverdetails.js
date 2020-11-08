@@ -46,7 +46,7 @@ class ServerDetails extends Component{
       })
     }
     dataVisualise(){
-      if(this.state.showChart){
+      // if(this.state.showChart){
       const details = prompt("Enter the number of rows of data you want from database (all, first 10 or last 10");
       const data = {
         username:this.state.username,
@@ -57,18 +57,18 @@ class ServerDetails extends Component{
       
       Axios.post("/health/display", data)
       .then(({data})=>{
-        if(data==="Invalid Details Entered"){
-          alert("Invalid Details Entered")
+        if(typeof data==="string"){
+          alert(data)
         }
         else{
         this.setState({healthData:data})
         }
       })
-    }
-    else{
-      alert("Server is not set up for Data Visualization")
-    }
-      
+    // }
+    // else{
+    //   alert("Server is not set up for Data Visualization")
+    // }
+    
     }
 
 

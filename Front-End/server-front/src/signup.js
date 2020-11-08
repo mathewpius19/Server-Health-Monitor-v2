@@ -21,19 +21,24 @@ const Signup = () => {
       }
       else if(password.indexOf(' ') >= 0){
         alert("Password should not contain spaces");
+        return 0
       }
       else if(Number.isInteger(userChar0)){
         alert("Username should not start with a number")
+        return 0
       }
       else if(username.indexOf(' ') >= 0){
         alert("Username should not contain spaces");
+        return 0
       }
       else if (!isValidUser) {
         alert("Username should not contain special characters.");
+        return 0
       }
 
     if (password !== password2) {
       alert("Passwords do not match"); //Checks if initially entered password matches the verification password
+      return 0
     } else {
       if (
         (username === "") |

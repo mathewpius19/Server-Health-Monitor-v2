@@ -14,7 +14,7 @@ const Home = () => {
         <h1 className="header font center red-text">Server Health Monitor</h1>
           <div className="description">
             <p className=" black-text font center text-darken-3 flow-text">
-            <img src= "main.jpg" width="50%" height="50%"/>
+            <img src= "https://cdn.haproxy.com/wp-content/uploads/2019/02/image2-2.png" width="70%" height="70%"/>
               </p>
           </div>
             <p><Link

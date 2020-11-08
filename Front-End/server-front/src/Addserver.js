@@ -22,27 +22,35 @@ const Addserver=()=>{
         var isValidServerName = regex.test(serverName);
           if (!isValidServerPass) {
             alert("Password should not contain special characters.");
+            return 0
           }
           else if(serverPassword.indexOf(' ') >= 0){
             alert("Password should not contain spaces");
+            return 0
           }
           else if(Number.isInteger(serverUserChar0)){
-            alert("Username should not start with a number")
+            alert("Username should not start with a number");
+            return 0
           }
           else if(serverUser.indexOf(' ') >= 0){
             alert("Username should not contain spaces");
+            return 0
           }
           else if (!isValidServerUser) {
             alert("Username should not contain special characters.");
+            return 0
           }
           else if(Number.isInteger(serverNameChar0)){
-            alert("Server name should not start with a number")
+            alert("Server name should not start with a number");
+            return 0
           }
           else if(serverName.indexOf(' ') >= 0){
             alert("Server name should not contain spaces");
+            return 0
           }
           else if (!isValidServerName) {
             alert("Username should not contain special characters.");
+            return 0
           }
           else{
             const serverDetails = {

@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose  = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 
 //App is initialised
@@ -9,6 +10,7 @@ const app=express();
 //Middlewares
 app.use(bodyParser.json());
 require("dotenv/config");
+app.use(cors());
 
 //Routes 
 const testRoutes = require("./routes/post");

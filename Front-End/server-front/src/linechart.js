@@ -45,13 +45,13 @@ class Chart extends Component{
         //Set Domains on Scales
 
         const timeDomain = d3.extent(data, d=>d.Epoch_Time*1000)
-        const cpuUsageDomain = d3.extent(data, d=>(d.CPU_Usage_Percent))
-        const diskFreeDomain = d3.extent(data, d=>d.Bytes_Read)
-        const memoryFreeDomain = d3.extent(data, d=>d.Memory_Free)
+        const bytesReadDomain = d3.extent(data, d=>(d.Bytes_Read))
+        const bytesWriteDomain = d3.extent(data, d=>d.Bytes_Write)
+        const bytesSentDomain = d3.extent(data, d=>d.Bytes_Sent)
         xScale.domain(timeDomain)
-        yScale1.domain(cpuUsageDomain)
-        yScale2.domain(diskFreeDomain)
-        yScale3.domain(memoryFreeDomain)
+        yScale1.domain(bytesReadDomain)
+        yScale2.domain(bytesWriteDomain)
+        yScale3.domain(bytesSentDomain)
 
          
         //Create and use line generator to plot the line charts
@@ -60,17 +60,26 @@ class Chart extends Component{
         
         const line1 = [
             {
-                path:lineGenerator.y((d)=>yScale1((d.CPU_Usage_Percent)))(data)
+                path:lineGenerator.y((d)=>yScale1((d.Bytes_Read)))(data)
             },
+            {
+                path:lineGenerator.y((d)=>yScale1((d.P_Read)|0))(data)
+            }
         ];
         const line2 = [
             {
-                path:lineGenerator.y((d)=>yScale2((d.Bytes_Read)))(data)
+                path:lineGenerator.y((d)=>yScale2((d.Bytes_Write)))(data)
+            },
+            {
+                path:lineGenerator.y((d)=>yScale2((d.P_Write)|0))(data)
             }
         ]
         const line3=[
             {
-                path:lineGenerator.y((d)=>yScale3((d.Memory_Free)))(data)
+                path:lineGenerator.y((d)=>yScale3((d.Bytes_Sent)))(data)
+            },
+            {
+                path:lineGenerator.y((d)=>yScale3((d.P_Sent)|0))(data)
             }
         ]
         return {line1,line2,line3, xScale, yScale1,yScale2,yScale3};
@@ -133,7 +142,7 @@ class Chart extends Component{
                     </LegendOrdinal>
                     
                     
-                <p className="center">CPU Usage Percent vs Time</p>
+                <p className="center">Bytes Read By Disk vs Time</p>
                 <svg>
                     
                     <g>
@@ -149,7 +158,7 @@ class Chart extends Component{
 
                 </svg>
                 
-                <p className="center ">Bytes Read by Disk vs Time</p>
+                <p className="center ">Bytes Written by Disk vs Time</p>
                 
                 <svg>
                     
@@ -166,7 +175,7 @@ class Chart extends Component{
 
                 </svg>
 
-                <p className="center">Memory Free Percent vs Time</p>
+                <p className="center">Bytes Sent by Server vs Time</p>
                 <svg>
                     
                     <g>
