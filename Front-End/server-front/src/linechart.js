@@ -20,13 +20,17 @@ class Chart extends Component{
         line1:[],
         line2:[],
         line3:[],
+        line4:[],
     }
     xAxis1=d3.axisBottom();
     xAxis2=d3.axisBottom();
     xAxis3=d3.axisBottom();
+    xAxis4 = d3.axisBottom();
+
     yAxis1=d3.axisLeft();
     yAxis2=d3.axisLeft();
     yAxis3=d3.axisLeft();
+    yAxis4=d3.axisLeft();
     
     static getDerivedStateFromProps(nextProps, prevState){
         const { data } = nextProps;
@@ -38,6 +42,7 @@ class Chart extends Component{
         const yScale1 = d3.scaleLinear().range([height-margin.bottom,margin.top])
         const yScale2 = d3.scaleLinear().range([height-margin.bottom,margin.top])
         const yScale3 = d3.scaleLinear().range([height-margin.bottom,margin.top])
+        const yScale4 = d3.scaleLinear().range([height-margin.bottom,margin.top])
          
    
             //new Date(d.Epoch_Time*1000).toLocaleString().split(' ')[0]
@@ -48,10 +53,13 @@ class Chart extends Component{
         const bytesReadDomain = d3.extent(data, d=>(d.Bytes_Read))
         const bytesWriteDomain = d3.extent(data, d=>d.Bytes_Write)
         const bytesSentDomain = d3.extent(data, d=>d.Bytes_Sent)
+        const bytesRecvDomain = d3.extent(data, d=>d.Bytes_Recv)
         xScale.domain(timeDomain)
         yScale1.domain(bytesReadDomain)
         yScale2.domain(bytesWriteDomain)
         yScale3.domain(bytesSentDomain)
+        yScale4.domain(bytesRecvDomain)
+
 
          
         //Create and use line generator to plot the line charts
@@ -60,10 +68,10 @@ class Chart extends Component{
         
         const line1 = [
             {
-                path:lineGenerator.y((d)=>yScale1((d.Bytes_Read)))(data)
+                path:lineGenerator.y((d)=>yScale1((d.Bytes_Read.parse)))(data)
             },
             {
-                path:lineGenerator.y((d)=>yScale1((d.P_Read)|0))(data)
+                path:lineGenerator.y((d)=>yScale1((d.P_Read)))(data)
             }
         ];
         const line2 = [
@@ -71,18 +79,26 @@ class Chart extends Component{
                 path:lineGenerator.y((d)=>yScale2((d.Bytes_Write)))(data)
             },
             {
-                path:lineGenerator.y((d)=>yScale2((d.P_Write)|0))(data)
-            }
+                path:lineGenerator.y((d)=>yScale2((d.P_Write)))(data)
+            },
         ]
         const line3=[
             {
                 path:lineGenerator.y((d)=>yScale3((d.Bytes_Sent)))(data)
             },
             {
-                path:lineGenerator.y((d)=>yScale3((d.P_Sent)|0))(data)
-            }
+                path:lineGenerator.y((d)=>yScale3((d.P_Sent)))(data)
+            },
+        ];
+        const line4 = [
+            {
+                path:lineGenerator.y((d)=>yScale4((d.Bytes_Recv)))(data)
+            },
+            {
+                path:lineGenerator.y((d)=>yScale4((d.P_Recv)))(data)
+            },
         ]
-        return {line1,line2,line3, xScale, yScale1,yScale2,yScale3};
+        return {line1,line2,line3,line4, xScale, yScale1,yScale2,yScale3, yScale4};
     }
 
     componentDidUpdate(){
@@ -99,6 +115,10 @@ class Chart extends Component{
         this.xAxis3.scale(this.state.xScale);
         d3.select(this.refs.xAxis3).call(this.xAxis3);
 
+        this.xAxis4.scale(this.state.xScale);
+        d3.select(this.refs.xAxis4).call(this.xAxis4);
+
+
         this.yAxis1.scale(this.state.yScale1);
         d3.select(this.refs.yAxis1).call(this.yAxis1);
         
@@ -107,6 +127,9 @@ class Chart extends Component{
         
         this.yAxis3.scale(this.state.yScale3);
         d3.select(this.refs.yAxis3).call(this.yAxis3);
+        
+        this.yAxis4.scale(this.state.yScale4);
+        d3.select(this.refs.yAxis4).call(this.yAxis4);
 
     }
 }
@@ -148,8 +171,12 @@ class Chart extends Component{
                     <g>
                         {this.state.line1.map((d,i)=>{
                             
+                            if(i===0){
                                 return <path d={d.path} fill="none" stroke="red" />
-                            
+                            }
+                            else{
+                                return <path d={d.path} fill="none" stroke="blue" />
+                            }
                            
                         })}
                     </g>
@@ -158,35 +185,67 @@ class Chart extends Component{
 
                 </svg>
                 
-                <p className="center ">Bytes Written by Disk vs Time</p>
+                <p className="center ">Bytes Written By Disk vs Time</p>
                 
                 <svg>
                     
                     <g>
                         {this.state.line2.map((d,i)=>{
                             
+                            if(i===0){
+                                return <path d={d.path} fill="none" stroke="red" />
+                            }
+                            else{
                                 return <path d={d.path} fill="none" stroke="blue" />
-                           
+                            }
                             
                         })}
                     </g>
                     <g ref="xAxis2" transform={`translate(0,${height-margin.bottom})`} g/>
-                    <g ref="yAxis2" transform={`translate(${width},0)`} g/>
+                    <g ref="yAxis2" transform={`translate(${margin.left},0)`} g/>
 
                 </svg>
 
-                <p className="center">Bytes Sent by Server vs Time</p>
+                <p className="center">Bytes Sent to Net vs Time</p>
                 <svg>
                     
                     <g>
                         {this.state.line3.map((d,i)=>{
                             
-                                return <path d={d.path} fill="none" stroke = "purple" />
+                            if(i===0){
+
+                            
+                                return <path d={d.path} fill="none" stroke = "red" />
+                            }
+                            else{
+                                return <path d={d.path} fill="none" stroke = "blue" />
+                            }
                             
                         })}
                     </g>
                     <g ref="xAxis3" transform={`translate(0,${height-margin.bottom})`} g/>
                     <g ref="yAxis3" transform={`translate(${margin.left},0)`} g/>
+
+                </svg>
+                <p className="center">Bytes Received from NET vs Time</p>
+                <svg>
+                    
+                    <g>
+                        {this.state.line4.map((d,i)=>{
+                            
+                            if(i===0){
+                            
+                                return <path d={d.path} fill="none" stroke = "red" />
+                            }
+                            else{
+                                return <path d={d.path} fill="none" stroke = "blue" />
+
+                            }
+                            
+                        })}
+                    </g>
+                    <g ref="xAxis4" transform={`translate(0,${height-margin.bottom})`} g/>
+                    <g ref="yAxis4" transform={`translate(${margin.left},0)`} g/>
 
                 </svg>
                 </div>

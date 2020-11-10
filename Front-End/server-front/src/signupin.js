@@ -34,8 +34,8 @@ const Signupin = () => {
 
   return (
     <div className="main-body">
-      <h1 className="header font center red-text">Login</h1>
-      <Card style={{ maxHeight: "40%", minHeight: "40%", backgroundColor: "hsl(22, 68%, 53%)"}}>
+      <h1 className="header font center dark-blue-text">Login</h1>
+      <Card style={{ maxHeight: "40%", minHeight: "40%", backgroundColor: "rgba(16, 147, 151, 0.863)"}}>
         <CardContent>
       <form
         onSubmit={(e) => {
@@ -45,7 +45,7 @@ const Signupin = () => {
       >
         <div className="form-content">
           <label htmlFor="user-label"
-          style = {{color: '#5d4037', fontSize: 15, fontFamily:'sans-serif'}}>
+          style = {{color: 'black', fontSize: 15, fontFamily:'sans-serif'}}>
             Username
             <input
               id="username"
@@ -56,7 +56,7 @@ const Signupin = () => {
             />
           </label>
           <label htmlFor="password-label"
-          style = {{color: '#5d4037', fontSize: 15, fontFamily:'sans-serif'}}>
+          style = {{color: 'black', fontSize: 15, fontFamily:'sans-serif'}}>
             Password
             <input
               id="password"
@@ -68,7 +68,7 @@ const Signupin = () => {
           </label>
         </div>
         <button className="waves-effect waves-green btn">Submit</button>
-        <Link to="/signup" style={{ textDecoration: "none", color: "red",fontSize: 11, fontFamily:'sans-serif'  }}>
+        <Link to="/signup" style={{ textDecoration: "none", color: "black",fontSize: 11, fontFamily:'sans-serif'  }}>
           Dont have an account?Click here to create one!
         </Link>
       </form>

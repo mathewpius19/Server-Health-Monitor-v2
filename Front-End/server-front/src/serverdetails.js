@@ -41,18 +41,16 @@ class ServerDetails extends Component{
       this.setState({loading:false})
       subscribeToSocket(this.state.ipAddr, (err, receivedData)=>{
         // console.log(receivedData)
-        this.setState({data:receivedData, socketRunning:true});
+        this.setState({data:receivedData, socketRunning:true, showChart:true});
 
       })
     }
     dataVisualise(){
-      // if(this.state.showChart){
-      const details = prompt("Enter the number of rows of data you want from database (all, first 10 or last 10");
+      if(this.state.showChart){
       const data = {
         username:this.state.username,
         password:this.state.password,
         serverName: this.state.serverName,
-        details:details,
       }
       
       Axios.post("/health/display", data)
@@ -64,10 +62,10 @@ class ServerDetails extends Component{
         this.setState({healthData:data})
         }
       })
-    // }
-    // else{
-    //   alert("Server is not set up for Data Visualization")
-    // }
+    }
+    else{
+      alert("Server is not set up for Data Visualization")
+    }
     
     }
 
@@ -132,7 +130,7 @@ class ServerDetails extends Component{
             
                 return(
                   <div>
-                    <Card style={{ maxHeight: "30%", minHeight: "50%", backgroundColor: "hsl(22, 68%, 53%)"}}>
+                    <Card style={{ maxHeight: "30%", minHeight: "50%", backgroundColor: "rgba(16, 147, 151, 0.863)"}}>
             <CardContent>
               <Typography variant="h5">{this.state.serverName}</Typography>
               <Typography variant="h5">{this.state.data.operatingSystem}</Typography>

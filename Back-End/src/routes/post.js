@@ -163,8 +163,8 @@ router.post("/getservers", ({body:{username,password}},res)=>{
     )
 })
 //this is under /health routes
-router.post("/display", ({body:{username,password,serverName,details}},res)=>{
-   console.log(username,password,serverName,details);
+router.post("/display", ({body:{username,password,serverName}},res)=>{
+   console.log(username,password,serverName);
     User.findOne({username:username}).exec(async (err,result)=>{
 
         if(err){
@@ -183,7 +183,6 @@ router.post("/display", ({body:{username,password,serverName,details}},res)=>{
                             json:{
                                 Username:user,
                                 Servername:serverName,
-                                Details:details
                      
                             },
                             headers:{
@@ -201,7 +200,7 @@ router.post("/display", ({body:{username,password,serverName,details}},res)=>{
                                 else{
                                 const final=[];
                                 const keys = Object.keys(body)
-                                for(let i=0;i<body.Health_id.length;i++){
+                                for(let i=0;i<body.Epoch_Time.length;i++){
                                     const obj={};
                                     keys.forEach((key)=>{
                                         return(
@@ -281,9 +280,10 @@ async function sshInitSetupServer(user, password, host,serverName, res){
         conn.exec(
             `git clone https://github.com/mathewpius19/Health-Monitoring.git;cd Health-Monitoring/;
             echo ${password}|sudo -S npm i socket.io os-utils forever;
-            npx forever start websockets.js;
+            npx forever start healthMonitor.js;
             echo ${password} | sudo -S chmod 777 *.py;
             python3 requirements.py ${password} ${user} ${serverName};
+            python3 report.py ${serverName} ${user};
             
             `,
             (err,stream)=>{

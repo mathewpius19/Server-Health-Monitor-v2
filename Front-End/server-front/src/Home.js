@@ -11,15 +11,16 @@ const Home = () => {
     return (
      
       <div className="main-body" id="root">
-        <h1 className="header font center red-text">Server Health Monitor</h1>
+        <h1 className="header font center ">Server Health Monitor</h1>
           <div className="description">
-            <p className=" black-text font center text-darken-3 flow-text">
+            <p className=" black-text font text-darken-3 flow-text img-container">
             <img src= "https://cdn.haproxy.com/wp-content/uploads/2019/02/image2-2.png" width="70%" height="70%"/>
+            A website created to monitor your Linux remote servers of any origin.✨
               </p>
           </div>
             <p><Link
               to="/signup"
-              style={{ textDecoration: "none", color: "#5d4037", fontFamily: "sans-serif", fontSize: 15 }}
+              style={{ textDecoration: "none", color: "black", fontFamily: "sans-serif", fontSize: 15 }}
             >
               Dont have an account?Click here to create one!
             </Link>
@@ -27,7 +28,7 @@ const Home = () => {
             <p>
             <Link
               to="/signupin"
-              style={{ textDecoration: "none", color: "#5d4037", fontFamily: "sans-serif", fontSize: 15 }}
+              style={{ textDecoration: "none", color: "black", fontFamily: "sans-serif", fontSize: 15 }}
             >
               Already have an account?Click here to login!
             </Link>

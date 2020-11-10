@@ -7,7 +7,7 @@ const AppBar = ({ options, links, home }) => {
     return (
       
         <div className="navbar-container">
-          <Link to="/" className="logo">
+          <Link to="/" className="logo dark-blue-text">
           Server Health Monitor
         </Link>
           <Link to="/logout">Log Out</Link>

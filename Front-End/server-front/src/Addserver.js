@@ -2,6 +2,10 @@ import Axios from "axios";
 import React, { useContext, useState } from "react"
 import SignInContext from "./signInContext"
 import {navigate} from "@reach/router";
+import { CardContent } from "@material-ui/core";
+import Card from "@material-ui/core/Card";
+
+
 const Addserver=()=>{
     const [signInState, setSignInState] = useContext(SignInContext);
     const [serverName, setServerName] = useState("");
@@ -77,13 +81,16 @@ const Addserver=()=>{
     return(
         <div className="main-body">
             <h1 className="header font center">Add Server</h1>
+            <Card style={{ maxHeight: "60%", minHeight: "40%", backgroundColor: "rgba(16, 147, 151, 0.863)"}}>
+        <CardContent>
             <form
             onSubmit={(e)=>{
                 e.preventDefault();
                 verifyAndSendDetails();
             }}>
                 <div className="form-content">
-                    <label htmlFor="server-label">
+                    <label htmlFor="server-label"
+                    style = {{color: 'black', fontSize: 15}}>
                         Servername
                         <input
                         id="servername"
@@ -94,7 +101,8 @@ const Addserver=()=>{
                         />
                     </label>
 
-                    <label htmlFor="ipAddr-label">
+                    <label htmlFor="ipAddr-label"
+                    style = {{color: 'black', fontSize: 15}}>
                         IP Address
                         <input
                         id="ipAddress"
@@ -104,7 +112,8 @@ const Addserver=()=>{
                         onChange={(e)=>setIpAddr(e.target.value)}
                         />
                     </label>
-                    <label htmlFor="serverUser">
+                    <label htmlFor="serverUser"
+                    style = {{color: 'black', fontSize: 15}}>
                         Username of Server
                         <input
                         id="serverUser"
@@ -114,7 +123,8 @@ const Addserver=()=>{
                         onChange={(e)=>setServerUser(e.target.value)}
                         />
                     </label>
-                    <label htmlFor="serverPassword">
+                    <label htmlFor="serverPassword"
+                    style = {{color: 'black', fontSize: 15}}>
                         Password of Server
                         <input
                         id="serverPassword"
@@ -127,6 +137,8 @@ const Addserver=()=>{
                     </div>
                     <button className="waves-effect waves-green btn">Submit</button>
             </form>
+            </CardContent>
+            </Card>
         </div>
     )
 }

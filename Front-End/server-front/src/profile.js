@@ -73,7 +73,7 @@ class Profile extends Component {
           <h2 className="center">{this.state.username}'s Servers</h2>
           
          <TableContainer component={Paper}>
-          <Table  size="small" style={{minWidth:"650", background: "hsl(22, 68%, 53%)"}}>
+          <Table  size="small" style={{minWidth:"650", background: "rgba(16, 160, 165, 0.863)"}}>
             <TableHead>
               <TableRow>
                 <TableCell>Server Name</TableCell>
@@ -108,7 +108,7 @@ class Profile extends Component {
          <Button
          variant="contained"
          color="primary"
-         startIcon={<AddIcon/>}
+         startIcon={<AddIcon style={{backgroundColor:"purple"}}/>}
          onClick={()=>{navigate("addserver")}}
          ></Button>
         </div>
