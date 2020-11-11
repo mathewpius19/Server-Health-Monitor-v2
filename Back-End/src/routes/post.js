@@ -197,24 +197,24 @@ router.post("/display", ({body:{username,password,serverName}},res)=>{
                                 if(body==="Enough Data is not generated"){
                                     res.send("Enough Data is not generated.Please wait...")
                                 }
+                               
                                 else{
-                                const final=[];
-                                const keys = Object.keys(body)
-                                for(let i=0;i<body.Epoch_Time.length;i++){
-                                    const obj={};
-                                    keys.forEach((key)=>{
-                                        return(
-                                            obj[key]=body[key][i]
-                                        )
-                                    })
-                                    final.push(obj);
-                                }
-                                if(final.length==0){
+                                // const final=[];
+                                // const keys = Object.keys(body)
+                                // for(let i=0;i<body.Epoch_Time.length;i++){
+                                //     const obj={};
+                                //     keys.forEach((key)=>{
+                                //         return(
+                                //             obj[key]=body[key][i]
+                                //         )
+                                //     })
+                                //     final.push(obj);
+                                // }
+                                if(body.length==0){
                                     res.send("Invalid Details Entered")
                                 }
                                 else{
-                                 console.log(final)
-                                res.send(final)
+                                res.send(body)
                                 }
                             }
                             });
@@ -281,9 +281,9 @@ async function sshInitSetupServer(user, password, host,serverName, res){
             `git clone https://github.com/mathewpius19/Health-Monitoring.git;cd Health-Monitoring/;
             echo ${password}|sudo -S npm i socket.io os-utils forever;
             npx forever start healthMonitor.js;
-            echo ${password} | sudo -S chmod 777 *.py;
+            echo ${password}    | sudo -S chmod 777 *.py;
             python3 requirements.py ${password} ${user} ${serverName};
-            python3 report.py ${serverName} ${user};
+            echo ${password}| sudo -S python3 report.py ${serverName} ${user};
             
             `,
             (err,stream)=>{
