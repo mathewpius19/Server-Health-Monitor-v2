@@ -2,6 +2,7 @@ import Axios from "axios"
 import React, { Component } from "react"
 import { navigate } from "@reach/router";
 import Card from "@material-ui/core/Card";
+import { makeStyles } from '@material-ui/core/styles';
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import openConnection from "socket.io-client"
@@ -130,10 +131,10 @@ class ServerDetails extends Component{
             
                 return(
                   <div>
-                    <Card style={{ maxHeight: "30%", minHeight: "50%", backgroundColor: "rgba(16, 147, 151, 0.863)"}}>
-            <CardContent>
-              <Typography variant="h5">{this.state.serverName}</Typography>
-              <Typography variant="h5">{this.state.data.operatingSystem}</Typography>
+                    <Card style={{ maxHeight: "30%", minHeight: "50%", backgroundColor: "rgba(13, 113, 138, 0.664)"}}>
+           <CardContent>
+              <Typography component="h2" variant="h5">{this.state.serverName}</Typography>
+              <Typography  component="h2" variant="h5">{this.state.data.operatingSystem}</Typography>
               <Typography>User: {this.state.user}</Typography>
               <Typography>Uptime: {this.state.data.uptime}</Typography>
               <Typography>CPU Usage: {this.state.data.cpuUsage}</Typography>

@@ -13,6 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import DnsIcon from '@material-ui/icons/Dns';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { LinearProgress } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 
@@ -67,25 +68,41 @@ class Profile extends Component {
         rows.push(newRow);
       });
       
-       
+      const StyledTableCell = withStyles((theme) => ({
+        head: {
+          backgroundColor: theme.palette.common.white,
+          color: theme.palette.common.black,
+        },
+        body: {
+          fontSize: 14,
+        },
+      }))(TableCell);
+      const StyledTableRow = withStyles((theme) => ({
+        root: {
+          '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+          },
+        },
+      }))(TableRow);
+      
       return (
         <div className="main-body">
           <h2 className="center">{this.state.username}'s Servers</h2>
           
          <TableContainer component={Paper}>
-          <Table  size="small" style={{minWidth:"650", background: "rgba(16, 160, 165, 0.863)"}}>
+          <Table size="small" style={{minWidth:"650"}}>
             <TableHead>
               <TableRow>
-                <TableCell>Server Name</TableCell>
-                <TableCell>User</TableCell>
-                <TableCell>IP Address</TableCell>
+                <StyledTableCell>Server Name</StyledTableCell>
+                <StyledTableCell>User</StyledTableCell>
+                <StyledTableCell>IP Address</StyledTableCell>
               </TableRow>
             </TableHead>
             
             <TableBody>
               {rows.map((row)=>(
-                <TableRow key={row.col1}>
-                  <TableCell component="th" scope="row">
+                <StyledTableRow key={row.col1}>
+                  <StyledTableCell component="th" scope="row">
                   {row.col1}
                   
                       <Link key={row.col1} to={`/serverdetails/${this.state.username}/${row.col1}/${row.col2}/${row.col3}/${this.state.password}`} style={{ textDecoration: "none", color: "white" }}>
@@ -96,10 +113,10 @@ class Profile extends Component {
                       </ListItem>
                       </Link>
                       
-                  </TableCell>
-                  <TableCell>{row.col2}</TableCell>
-              <TableCell>{row.col3}</TableCell>
-                </TableRow>
+                  </StyledTableCell>
+                  <StyledTableCell>{row.col2}</StyledTableCell>
+              <StyledTableCell>{row.col3}</StyledTableCell>
+                </StyledTableRow>
               ))}
             </TableBody>
             </Table>
@@ -108,7 +125,7 @@ class Profile extends Component {
          <Button
          variant="contained"
          color="primary"
-         startIcon={<AddIcon style={{backgroundColor:"purple"}}/>}
+         startIcon={<AddIcon style={{backgroundColor:"blue"}}/>}
          onClick={()=>{navigate("addserver")}}
          ></Button>
         </div>

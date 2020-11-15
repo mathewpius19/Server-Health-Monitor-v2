@@ -20,17 +20,17 @@ const Home = () => {
           </div>
             <p><Link
               to="/signup"
-              style={{ textDecoration: "none", color: "black", fontFamily: "sans-serif", fontSize: 15 }}
+              style={{ textDecoration: "none", color: "black", fontFamily: "sans-serif", fontWeight: "bolder", fontSize: 15}}
             >
-              Dont have an account?Click here to create one!
+              Don't have an account? Click here to create one!
             </Link>
             </p>
             <p>
             <Link
               to="/signupin"
-              style={{ textDecoration: "none", color: "black", fontFamily: "sans-serif", fontSize: 15 }}
+              style={{ textDecoration: "none", color: "black",  fontFamily: "sans-serif", fontWeight: "bolder", fontSize: 15 }}
             >
-              Already have an account?Click here to login!
+              Already have an account?  Click here to login!
             </Link>
             </p>
           </div>

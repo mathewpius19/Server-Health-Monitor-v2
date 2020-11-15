@@ -48,17 +48,38 @@ class Chart extends Component{
             //new Date(d.Epoch_Time*1000).toLocaleString().split(' ')[0]
 
         //Set Domains on Scales
-
+        var max1 = d3.max(data, function (d) {
+            return (d.Bytes_Read < d.P_Read ? d.P_Read : d.Bytes_Read) + 100000^2 ;
+          });
+          var min1 = d3.min(data, function (d) {
+            return (d.Bytes_Read > d.P_Read ? d.P_Read : d.Bytes_Read) - 100000^2;
+          });
+          var max2 = d3.max(data, function (d) {
+            return (d.Bytes_Write < d.P_Write ? d.P_Write : d.Bytes_Write) + 10000^2;
+          });
+          var min2 = d3.min(data, function (d) {
+            return (d.Bytes_Write > d.P_Write ? d.P_Write : d.Bytes_Write) - 10000^2;
+          });
+          var max3 = d3.max(data, function (d) {
+            return (d.Bytes_Sent < d.P_Sent ? d.P_Sent : d.Bytes_Sent) + 10000^2;
+          });
+          var min3 = d3.min(data, function (d) {
+            return (d.Bytes_Sent > d.P_Sent ? d.P_Sent : d.Bytes_Sent) - 10000^2;
+          });
+          var max4 = d3.max(data, function (d) {
+            return (d.Bytes_Recv< d.P_Recv ? d.P_Recv : d.Bytes_Recv) + 10000^2;
+          });
+          var min4 = d3.min(data, function (d) {
+            return (d.Bytes_Recv> d.P_Recv ? d.P_Recv : d.Bytes_Recv) - 10000^2;
+          })
+          console.log(min1)
+          console.log(max1)
         const timeDomain = d3.extent(data, d=>d.Epoch_Time*1000)
-        const bytesReadDomain = d3.extent(data, d=>(d.Bytes_Read))
-        const bytesWriteDomain = d3.extent(data, d=>d.Bytes_Write)
-        const bytesSentDomain = d3.extent(data, d=>d.Bytes_Sent)
-        const bytesRecvDomain = d3.extent(data, d=>d.Bytes_Recv)
         xScale.domain(timeDomain)
-        yScale1.domain(bytesReadDomain)
-        yScale2.domain(bytesWriteDomain)
-        yScale3.domain(bytesSentDomain)
-        yScale4.domain(bytesRecvDomain)
+        yScale1.domain([min1,max1])
+        yScale2.domain([min2,max2])
+        yScale3.domain([min3,max3])
+        yScale4.domain([min4,max4])
 
 
          

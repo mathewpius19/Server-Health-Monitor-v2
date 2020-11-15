@@ -3,9 +3,9 @@ import { Link, navigate } from "@reach/router";
 import axios from "axios";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import Button from '@material-ui/core/Button';
 import Typography from "@material-ui/core/Typography";
 import SignInContext from "./signInContext";
-
 const Signupin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -35,7 +35,8 @@ const Signupin = () => {
   return (
     <div className="main-body">
       <h1 className="header font center dark-blue-text">Login</h1>
-      <Card style={{ maxHeight: "40%", minHeight: "40%", backgroundColor: "rgba(16, 147, 151, 0.863)"}}>
+
+      <Card style={{ maxHeight: "40%", minHeight: "40%", backgroundColor: "white", boxShadow: "4px 4px 4px 4px  #525151ad", borderRight: "20px solid rgba(0, 73, 230, 0.795)" }}>
         <CardContent>
       <form
         onSubmit={(e) => {
@@ -66,12 +67,13 @@ const Signupin = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
+          &emsp;
         </div>
-        <button className="waves-effect waves-green btn">Submit</button>
-        <Link to="/signup" style={{ textDecoration: "none", color: "black",fontSize: 11, fontFamily:'sans-serif'  }}>
-          Dont have an account?Click here to create one!
-        </Link>
+        <button className="waves-effect waves-green btn">Login</button>
       </form>
+      <Button href="./signup" size="small">
+          Don't have an account? Sign In!
+        </Button>
       </CardContent>
       </Card>
     </div>
