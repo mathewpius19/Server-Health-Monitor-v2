@@ -17,8 +17,10 @@ const Signup = () => {
 
     const userChar0 = parseInt(username.charAt(0));
     var regex = /^[A-Za-z0-9 ]+$/ //Regular expression containing special characters
+    var Emailregex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/ //Regular expression to check email address validity
     var isValidPass = regex.test(password);
     var isValidUser = regex.test(username);
+    var isValidEmail = Emailregex.test(email);
       if (!isValidPass) {
         alert("Password should not contain special characters."); 
       }
@@ -36,6 +38,10 @@ const Signup = () => {
       }
       else if (!isValidUser) {
         alert("Username should not contain special characters.");
+        return 0
+      }
+      else if(!isValidEmail){
+        alert("Email is invalid.Please enter a valid email address");
         return 0
       }
 
@@ -151,8 +157,10 @@ const Signup = () => {
         </div>
         <button className="waves-effect waves-green btn">Sign Up</button>
       </form>
-      <Button href="./signupin" size="small">
+      <Button >
+        <Link to="/signupin" style={{size:"small",color:"black", fontWeight:"bolder"}}>
           Already have an account? Sign Up!
+          </Link>
         </Button>
       </CardContent>
       </Card>

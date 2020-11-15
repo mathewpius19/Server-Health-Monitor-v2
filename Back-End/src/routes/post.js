@@ -199,21 +199,11 @@ router.post("/display", ({body:{username,password,serverName}},res)=>{
                                 }
                                
                                 else{
-                                // const final=[];
-                                // const keys = Object.keys(body)
-                                // for(let i=0;i<body.Epoch_Time.length;i++){
-                                //     const obj={};
-                                //     keys.forEach((key)=>{
-                                //         return(
-                                //             obj[key]=body[key][i]
-                                //         )
-                                //     })
-                                //     final.push(obj);
-                                // }
                                 if(body.length==0){
                                     res.send("Invalid Details Entered")
                                 }
                                 else{
+                                    // console.log(body)
                                 res.send(body)
                                 }
                             }

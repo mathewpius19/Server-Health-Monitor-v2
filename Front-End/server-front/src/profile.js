@@ -35,7 +35,7 @@ class Profile extends Component {
       .then(({ data }) => {
         // console.log(this.state.username);
         // console.log(this.state.password);
-        console.log(data);
+        // console.log(data);
         if (typeof data === "string") {
           alert(data);
         } else {

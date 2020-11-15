@@ -10,7 +10,7 @@ const AppBar = ({ options, links, home }) => {
           <Link to="/" className="logo dark-blue-text">
           Server Health Monitor
         </Link>
-          <Link to="/logout">Log Out</Link>
+          <Link to="/logout" style={{color:"black"}}>Log Out</Link>
         </div>
     )
   }
@@ -26,7 +26,7 @@ const AppBar = ({ options, links, home }) => {
               <Link
               key={index}
               to={links[index]}
-              style={{textDecoration:"none", color:"white"}}
+              style={{textDecoration:"none", color:"black"  }}
               >
               <li key={index}>{item}</li>
               </Link>

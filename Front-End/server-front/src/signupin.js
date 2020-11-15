@@ -71,8 +71,10 @@ const Signupin = () => {
         </div>
         <button className="waves-effect waves-green btn">Login</button>
       </form>
-      <Button href="./signup" size="small">
+      <Button>
+        <Link  to="/signup" style={{size:"small", color:"black", fontWeight:"bolder"}}>
           Don't have an account? Sign In!
+          </Link>
         </Button>
       </CardContent>
       </Card>
