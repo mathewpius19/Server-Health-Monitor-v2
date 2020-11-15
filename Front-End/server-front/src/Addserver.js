@@ -2,7 +2,7 @@ import Axios from "axios";
 import React, { useContext, useState } from "react"
 import SignInContext from "./signInContext"
 import {navigate} from "@reach/router";
-import { CardContent } from "@material-ui/core";
+import { CardContent, Button } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 
 
@@ -81,7 +81,7 @@ const Addserver=()=>{
     return(
         <div className="main-body">
             <h1 className="header font center">Add Server</h1>
-            <Card style={{ maxHeight: "60%", minHeight: "40%", backgroundColor: "rgba(16, 147, 151, 0.863)"}}>
+            <Card style={{ maxHeight: "60%", minHeight: "40%", backgroundColor: "white", boxShadow: "4px 4px 4px 4px  #525151ad", borderRight: "20px solid rgba(0, 73, 230, 0.795)" }}>
         <CardContent>
             <form
             onSubmit={(e)=>{
@@ -134,8 +134,9 @@ const Addserver=()=>{
                         onChange={(e)=>setServerPassword(e.target.value)}
                         />
                     </label>
+                    &emsp;
                     </div>
-                    <button className="waves-effect waves-green btn">Submit</button>
+                    <button className="waves-effect waves-green btn">Add Server!</button>
             </form>
             </CardContent>
             </Card>
@@ -145,3 +146,4 @@ const Addserver=()=>{
 export default Addserver;
 
 //Resending it
+

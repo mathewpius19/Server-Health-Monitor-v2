@@ -2,6 +2,7 @@ import { useState } from "react";
 import React from "react";
 import axios from "axios";
 import { Link, redirectTo } from "@reach/router";
+import Button from '@material-ui/core/Button';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 
@@ -71,7 +72,7 @@ const Signup = () => {
   return (
     <div className="main-body">
       <h1 className="header font center dark-blue-text">Register</h1>
-      <Card style={{ backgroundColor: "rgba(16, 147, 151, 0.863)"}}>
+      <Card style={{ minWidth: "30%", maxWidth: "60%",backgroundColor: "white", boxShadow: "5px 4px 4px 4px  #525151ad", borderRight: "20px solid rgba(0, 73, 230, 0.795)" }}>
         <CardContent>
       <form
         onSubmit={(e) => {
@@ -146,12 +147,13 @@ const Signup = () => {
               onChange={(e) => setLastName(e.target.value)}
             />
           </label>
+          &emsp;
         </div>
-        <button className="waves-effect waves-green btn">Submit</button>
-        <Link to="/signupin" style={{ textDecoration: "none", color: "black", fontSize: 11, fontFamily:'sans-serif' }}>
-        Already have an account?Click here to log in!
-      </Link>
+        <button className="waves-effect waves-green btn">Sign Up</button>
       </form>
+      <Button href="./signupin" size="small">
+          Already have an account? Sign Up!
+        </Button>
       </CardContent>
       </Card>
 
