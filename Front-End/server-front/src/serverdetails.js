@@ -39,7 +39,8 @@ class ServerDetails extends Component{
         healthData:"",
       }      
     componentDidMount(){
-      this.setState({loading:false})
+      setTimeout(()=>{this.setState({loading:false})},500);
+      
       subscribeToSocket(this.state.ipAddr, (err, receivedData)=>{
         // console.log(receivedData)
         this.setState({data:receivedData, socketRunning:true, showChart:true});

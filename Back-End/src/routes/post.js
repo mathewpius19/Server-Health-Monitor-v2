@@ -179,7 +179,7 @@ router.post("/display", ({body:{username,password,serverName}},res)=>{
                         const serverIdx = servers.map((el)=>el.serverName===serverName).indexOf(true)
                         const {user, ipAddr} = servers[serverIdx];
                         request.post({
-                            url:`http://${ipAddr}:4400/Display`,
+                            url:`http://localhost:4400/Display`,
                             json:{
                                 Username:user,
                                 Servername:serverName,
@@ -203,8 +203,17 @@ router.post("/display", ({body:{username,password,serverName}},res)=>{
                                     res.send("Invalid Details Entered")
                                 }
                                 else{
-                                    // console.log(body)
-                                res.send(body)
+                                    const data=[]
+                                    keys = Object.keys(body)
+                                    for(var i=0;i<body.Epoch_Time.length;i++){
+                                        dataObj={}
+                                        for(key of keys){
+                                            dataObj[key] = body[key][i]
+                                        }
+                                        data.push(dataObj)
+                                    }
+                                    //  console.log(data)
+                                res.send(data)
                                 }
                             }
                             });
