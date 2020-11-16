@@ -179,7 +179,7 @@ router.post("/display", ({body:{username,password,serverName}},res)=>{
                         const serverIdx = servers.map((el)=>el.serverName===serverName).indexOf(true)
                         const {user, ipAddr} = servers[serverIdx];
                         request.post({
-                            url:`http://localhost:4400/Display`,
+                            url:`http://${ipAddr}:4400/Display`,
                             json:{
                                 Username:user,
                                 Servername:serverName,
@@ -194,12 +194,12 @@ router.post("/display", ({body:{username,password,serverName}},res)=>{
                                 if (err) {
                                     res.json({ message: err });
                                 }
-                                if(body==="Enough Data is not generated"){
+                                if(body==="Not Enough Data for Prediction"){
                                     res.send("Enough Data is not generated.Please wait...")
                                 }
                                
                                 else{
-                                if(body.length==0){
+                                if(body===undefined){
                                     res.send("Invalid Details Entered")
                                 }
                                 else{
@@ -280,10 +280,9 @@ async function sshInitSetupServer(user, password, host,serverName, res){
             `git clone https://github.com/mathewpius19/Health-Monitoring.git;cd Health-Monitoring/;
             echo ${password}|sudo -S npm i socket.io os-utils forever;
             npx forever start healthMonitor.js;
-            echo ${password}    | sudo -S chmod 777 *.py;
+            echo ${password} | sudo -S chmod 777 *.py;
             python3 requirements.py ${password} ${user} ${serverName};
-            echo ${password}| sudo -S python3 report.py ${serverName} ${user};
-            
+            python3 report.py ${serverName} ${user};
             `,
             (err,stream)=>{
                 if(err){

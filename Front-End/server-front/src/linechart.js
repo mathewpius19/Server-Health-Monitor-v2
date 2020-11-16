@@ -89,7 +89,7 @@ class Chart extends Component{
         
         const line1 = [
             {
-                path:lineGenerator.y((d)=>yScale1((d.Bytes_Read.parse)))(data)
+                path:lineGenerator.y((d)=>yScale1((d.Bytes_Read)))(data)
             },
             {
                 path:lineGenerator.y((d)=>yScale1((d.P_Read)))(data)
@@ -202,7 +202,7 @@ class Chart extends Component{
                         })}
                     </g>
                     <g ref="xAxis1" transform={`translate(0,${height-margin.bottom})`} g/>
-                    <g ref="yAxis1" transform={`translate(${margin.left},0)`} g/>
+                    <g ref="yAxis1" transform={`translate(${width},0)`} g/>
 
                 </svg>
                 
@@ -223,7 +223,7 @@ class Chart extends Component{
                         })}
                     </g>
                     <g ref="xAxis2" transform={`translate(0,${height-margin.bottom})`} g/>
-                    <g ref="yAxis2" transform={`translate(${margin.left},0)`} g/>
+                    <g ref="yAxis2" transform={`translate(${width},0)`} g/>
 
                 </svg>
 
@@ -245,7 +245,7 @@ class Chart extends Component{
                         })}
                     </g>
                     <g ref="xAxis3" transform={`translate(0,${height-margin.bottom})`} g/>
-                    <g ref="yAxis3" transform={`translate(${margin.left},0)`} g/>
+                    <g ref="yAxis3" transform={`translate(${width},0)`} g/>
 
                 </svg>
                 <p className="center">Bytes Received from NET vs Time</p>
@@ -266,7 +266,7 @@ class Chart extends Component{
                         })}
                     </g>
                     <g ref="xAxis4" transform={`translate(0,${height-margin.bottom})`} g/>
-                    <g ref="yAxis4" transform={`translate(${margin.left},0)`} g/>
+                    <g ref="yAxis4" transform={`translate(${width},0)`} g/>
 
                 </svg>
                 </div>
