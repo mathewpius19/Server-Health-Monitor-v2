@@ -53,6 +53,7 @@ router.post("/signin", ({body:{username,password}},res)=>{
             res.send("Password Incorrect. Authentication Failed");
         }
         }
+
         else{
             res.send("User does not exist. Create User");
         }
@@ -278,10 +279,11 @@ async function sshInitSetupServer(user, password, host,serverName, res){
         log+="Server Health Monitor has successfully connected to Remote Server";
         conn.exec(
             `git clone https://github.com/mathewpius19/Health-Monitoring.git;cd Health-Monitoring/;
-            echo ${password}|sudo -S npm i socket.io os-utils forever;
-            npx forever start healthMonitor.js;
+            
             echo ${password} | sudo -S chmod 777 *.py;
             python3 requirements.py ${password} ${user} ${serverName};
+            echo ${password}|sudo -S npm i socket.io os-utils forever;
+            npx forever start healthMonitor.js;
             python3 report.py ${serverName} ${user};
             `,
             (err,stream)=>{
