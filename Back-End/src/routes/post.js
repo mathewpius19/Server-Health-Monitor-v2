@@ -108,14 +108,17 @@ router.post("/addserver", ({body:{username,user,serverName,sshKey,password,ipAdd
 
     )
 });
-router.post("/removeserver", ({body:{username,serverName}},res)=>{
-    User.findOne({username:username}).exec((err,result)=>{
+router.post("/removeserver", ({body:{username,serverName,password}},res)=>{
+    User.findOne({username:username}).exec(
+        async(err,result)=>{
         if(err){
             res.json({message:err})
             throw err
         }
         else{
                  if(result){
+                     const checkAuthentication = await bcrypt.compare(password, result.hash)
+                     if(checkAuthentication){
                 const serverExists = result.servers
                 .map((el)=>el.serverName===serverName)
                 .some((el)=>el);//returns a boolean value true if serverName matches the inputed serverName
@@ -132,9 +135,14 @@ router.post("/removeserver", ({body:{username,serverName}},res)=>{
                 }
             }
             else{
+                res.send("Password Incorrect")
+            }
+        }
+            else{
                 res.send("User does not exist. Please check username again!")
             }
         }
+        
     })
 });
 router.post("/getservers", ({body:{username,password}},res)=>{
@@ -164,7 +172,7 @@ router.post("/getservers", ({body:{username,password}},res)=>{
     )
 })
 //this is under /health routes
-router.post("/display", ({body:{username,password,serverName}},res)=>{
+router.post("/display", ({body:{username,serverName}},res)=>{
    console.log(username,password,serverName);
     User.findOne({username:username}).exec(async (err,result)=>{
 
@@ -174,9 +182,7 @@ router.post("/display", ({body:{username,password,serverName}},res)=>{
         else{
             if(result){
                 // console.log(user, serverName, details,username, password);
-                const {hash, servers} = result;
-                const checkAuthentication = await bcrypt.compare(password,hash)
-                    if(checkAuthentication){
+                const {servers} = result;
                         const serverIdx = servers.map((el)=>el.serverName===serverName).indexOf(true)
                         const {user, ipAddr} = servers[serverIdx];
                         request.post({
@@ -220,10 +226,7 @@ router.post("/display", ({body:{username,password,serverName}},res)=>{
                             });
                         
                     }
-                    else{
-                        res.send("Retrieval of body failed.Invalid credentials")
-                    }
-               }
+                
                 else{
                     res.send("User does not exist");
                 }
@@ -235,7 +238,7 @@ router.post("/display", ({body:{username,password,serverName}},res)=>{
 
 
 
-router.post("/setupserver", ({body:{username,serverName,password}},res)=>{
+router.post("/setupserver", ({body:{username,serverName}},res)=>{
     User.findOne({username:username}).exec(
         async(err,result)=>{
         if(err){
@@ -244,13 +247,11 @@ router.post("/setupserver", ({body:{username,serverName,password}},res)=>{
         }
         else{
             if(result){
-            const {hash, servers} = result
-            const checkAuthentication = await bcrypt.compare(password,hash)
-            if(checkAuthentication){
-                const serverIndex = servers.map((el)=>el.serverName===serverName).indexOf(true)
-                const{user, password,ipAddr} = servers[serverIndex]
-                const command = await sshInitSetupServer(user, password, ipAddr,serverName, res)
-                }
+            const {servers} = result
+            const serverIndex = servers.map((el)=>el.serverName===serverName).indexOf(true)
+            const{user, password,ipAddr} = servers[serverIndex]
+            const command = await sshInitSetupServer(user, password, ipAddr,serverName, res)
+                
             }   
             else{
                 res.send("User does not exist")

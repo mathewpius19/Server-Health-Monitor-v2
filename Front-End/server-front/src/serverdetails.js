@@ -23,7 +23,6 @@ class ServerDetails extends Component{
       this.dataVisualise = this.dataVisualise.bind(this)
     }
     state = {
-        password:this.props.password,
         user: this.props.user,
         username: this.props.username,
         serverName: this.props.serverName,
@@ -51,7 +50,6 @@ class ServerDetails extends Component{
       if(this.state.showChart){
       const data = {
         username:this.state.username,
-        password:this.state.password,
         serverName: this.state.serverName,
       }
       
@@ -79,15 +77,16 @@ class ServerDetails extends Component{
             )
         }
         else{
-            const {serverName, username, password, socketRunning} = this.state;
+            const {serverName, username, socketRunning} = this.state;
             function removeServer(){
                 const passw=prompt(
                     "Please enter the password to delete the server"
                 )
-                if(passw===password){
+                if(passw){
                     Axios.post("/users/removeserver",{
                         username:username,
-                        serverName:serverName
+                        serverName:serverName,
+                        password:passw
                     })
                     .then(({data})=>{
                         if(data === `Server with name ${serverName} has been removed from list of servers`){
@@ -95,8 +94,13 @@ class ServerDetails extends Component{
                         navigate("/")
                         }
                         else{
+                          if(data==="Password Incorrect"){
+                            alert("Password Incorrect. Failed to delete Server.")
+                          }
+                          else{
                             alert("Failed to delete server. [Internal Issue]");
                         }
+                      }
                     })
                 }
                 else{
@@ -109,7 +113,6 @@ class ServerDetails extends Component{
                 const data = {
                   username:username,
                   serverName:serverName,
-                  password:password
                 };
                 Axios.post("/health/setupserver", data)
                 .then((response)=>{

@@ -105,7 +105,7 @@ class Profile extends Component {
                   <StyledTableCell component="th" scope="row">
                   {row.col1}
                   
-                      <Link key={row.col1} to={`/serverdetails/${this.state.username}/${row.col1}/${row.col2}/${row.col3}/${this.state.password}`} style={{ textDecoration: "none", color: "white" }}>
+                      <Link key={row.col1} to={`/serverdetails/${this.state.username}/${row.col1}/${row.col2}/${row.col3}`} style={{ textDecoration: "none", color: "white" }}>
                       <ListItem button>
                         <ListItemIcon>
                           <DnsIcon/>
